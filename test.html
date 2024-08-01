@@ -71,10 +71,6 @@
         height: 100%;
         width: 100%;
       }
-      /* CSS to hide unwanted elements */
-      .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region {
-        display: none !important;
-      }
       ::-webkit-scrollbar {
         width: 0px;
         background: transparent;
@@ -131,8 +127,16 @@
 
       // 移除不需要的元素
       function removeUnwantedElements() {
-        const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding');
-        elementsToRemove.forEach(el => el.style.display = 'none');
+        const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region');
+        elementsToRemove.forEach(el => {
+          el.style.display = 'none';
+          el.style.height = '0';
+          el.style.margin = '0';
+          el.style.padding = '0';
+          el.style.overflow = 'hidden';
+          el.style.border = 'none';
+          el.style.backgroundColor = 'transparent';
+        });
       }
 
       // 加载指定的 dashboard
