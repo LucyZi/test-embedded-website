@@ -77,16 +77,13 @@
           }
           #viz-container {
               flex-grow: 1;
-              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
           }
           tableau-viz {
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              height: 100%;
-              width: 100%;
+              width: 90%;
+              height: 90%;
           }
       </style>
   </head>
@@ -109,10 +106,10 @@
           </div>
           <div id="content">
               <div id="toolbar">
-                  <button style="background: none; border: none; cursor: pointer; margin-right: 10px;">
+                  <button id="downloadImage" style="background: none; border: none; cursor: pointer; margin-right: 10px;">
                       <img src="https://lucyzi.github.io/test-embedded-website/img_white.png" alt="IMG" height="22px">
                   </button>
-                  <button style="background: none; border: none; cursor: pointer; margin-right: 10px;">
+                  <button id="downloadPDF" style="background: none; border: none; cursor: pointer; margin-right: 10px;">
                       <img src="https://lucyzi.github.io/test-embedded-website/pdf_white.png" alt="PDF" height="22px">
                   </button>
                   <span style="color: white; cursor: pointer;">LOG OUT</span>
@@ -128,7 +125,6 @@
           </div>
       </div>
       <script type="module">
-          // JavaScript code remains unchanged
           import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
   
           const dashboards = [
@@ -183,6 +179,27 @@
           // Load the first dashboard by default
           loadDashboard(0);
           setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
+  
+          // Add event listeners for download buttons
+          document.getElementById('downloadImage').addEventListener('click', function() {
+              const viz = document.getElementById('tableauViz');
+              viz.exportImageAsync().then((url) => {
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'dashboard_image.png';
+                  link.click();
+              });
+          });
+  
+          document.getElementById('downloadPDF').addEventListener('click', function() {
+              const viz = document.getElementById('tableauViz');
+              viz.exportPDFAsync({ pagetype: 'A4', orientation: 'landscape' }).then((url) => {
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'dashboard.pdf';
+                  link.click();
+              });
+          });
       </script>
   </body>
   </html>
