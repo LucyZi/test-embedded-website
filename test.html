@@ -140,6 +140,7 @@
       try {
         const viz = document.getElementById('tableauViz');
         viz.src = dashboards[index].url;
+        viz.hideTabs = true; // 设置隐藏标签页
 
         // 等待 viz 变为可交互
         await new Promise((resolve, reject) => {
