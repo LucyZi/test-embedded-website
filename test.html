@@ -15,11 +15,16 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* 背景色，可以根据需要调整 */
         }
         #wrapper {
-            height: 100vh;
-            width: 100%;
+            height: 80vh;
+            width: 80%;
             display: flex;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 添加阴影效果 */
         }
         #sidebar {
             width: 200px;
@@ -110,6 +115,7 @@
         </div>
     </div>
     <script type="module">
+        // JavaScript 代码保持不变
         import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
 
         const dashboards = [
