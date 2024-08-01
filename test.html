@@ -75,15 +75,19 @@
         width: 0px;
         background: transparent;
       }
-      .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow {
-        height: 5px !important;
+      .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow,
+      .tab-zone-margin, .tab-zone-padding {
+        height: 0px !important;
+        overflow: hidden !important;
+        border: none !important;
+        background-color: transparent !important;
+        padding: 0px !important;
+        margin: 0px !important;
+      }
+      #tab-dashboard-region {
+        height: 0px !important;
         overflow: hidden !important;
       }
-
-      .tab-zone-margin, .tab-zone-padding {
-        display: none !important;
-      }
-      
     </style>
   </head>
   <body>
@@ -134,31 +138,10 @@
         });
       }
 
-      // 调整 tab-zone 的高度
-      function adjustTabZoneHeight() {
-        const tabZones = document.querySelectorAll('.tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow, .tab-zone-margin, .tab-zone-padding');
-        tabZones.forEach(tabZone => {
-          tabZone.style.setProperty('height', '5px', 'important');
-          tabZone.style.setProperty('overflow', 'hidden', 'important');
-          if (tabZone.classList.contains('tab-zone-margin') || tabZone.classList.contains('tab-zone-padding')) {
-            tabZone.style.setProperty('border', 'none', 'important');
-            tabZone.style.setProperty('background-color', 'transparent', 'important');
-          }
-        });
-      }
-
-      // 创建 MutationObserver 来监视 DOM 变化
-      function createTabZoneObserver() {
-        const observer = new MutationObserver((mutations) => {
-          mutations.forEach((mutation) => {
-            if (mutation.type === 'childList' || mutation.type === 'attributes') {
-              adjustTabZoneHeight();
-            }
-          });
-        });
-
-        const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] };
-        observer.observe(document.body, config);
+      // 移除不需要的元素
+      function removeUnwantedElements() {
+        const elementsToRemove = document.querySelectorAll('.tab-zone-margin, .tab-zone-padding');
+        elementsToRemove.forEach(el => el.remove());
       }
 
       // 加载指定的 dashboard
@@ -185,8 +168,8 @@
           // 设置活动按钮
           setActiveButton(index);
 
-          // 调整 tab-zone 高度
-          adjustTabZoneHeight();
+          // 移除不需要的元素
+          removeUnwantedElements();
 
           // 在这里可以添加额外的逻辑，比如获取工作表等
           if (viz.workbook) {
@@ -210,12 +193,29 @@
       // 初始化函数
       function init() {
         createNavigation();
-        createTabZoneObserver();
         loadDashboard(0); // 加载第一个 dashboard
       }
 
       // 调用初始化函数
       init();
+
+      // 在页面加载完成后执行
+      window.addEventListener('load', removeUnwantedElements);
+
+      // 创建一个MutationObserver来监视DOM变化
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'childList') {
+            removeUnwantedElements();
+          }
+        });
+      });
+
+      // 配置observer
+      const config = { childList: true, subtree: true };
+
+      // 开始观察document.body的变化
+      observer.observe(document.body, config);
     </script>  
   </body>
 </html>
