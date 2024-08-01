@@ -71,22 +71,13 @@
         height: 100%;
         width: 100%;
       }
+      /* CSS to hide unwanted elements */
+      .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region {
+        display: none !important;
+      }
       ::-webkit-scrollbar {
         width: 0px;
         background: transparent;
-      }
-      .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow,
-      .tab-zone-margin, .tab-zone-padding {
-        height: 0px !important;
-        overflow: hidden !important;
-        border: none !important;
-        background-color: transparent !important;
-        padding: 0px !important;
-        margin: 0px !important;
-      }
-      #tab-dashboard-region {
-        height: 0px !important;
-        overflow: hidden !important;
       }
     </style>
   </head>
@@ -110,7 +101,7 @@
     </div>
     <script type="module">
       import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
-      
+
       // 定义多个 dashboard 的 URL
       const dashboards = [
         { name: 'Dashboard 1', url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
@@ -140,8 +131,8 @@
 
       // 移除不需要的元素
       function removeUnwantedElements() {
-        const elementsToRemove = document.querySelectorAll('.tab-zone-margin, .tab-zone-padding');
-        elementsToRemove.forEach(el => el.remove());
+        const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding');
+        elementsToRemove.forEach(el => el.style.display = 'none');
       }
 
       // 加载指定的 dashboard
