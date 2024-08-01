@@ -16,15 +16,15 @@
             padding: 0;
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
             background-color: #f0f0f0; /* 背景色，可以根据需要调整 */
         }
         #wrapper {
             height: 80vh;
-            width: 80%;
+            width: 100%;
             display: flex;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 添加阴影效果 */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1); /* 添加上下阴影效果 */
         }
         #sidebar {
             width: 200px;
@@ -80,6 +80,7 @@
 </head>
 <body>
     <div id="wrapper">
+        <!-- 其余内容保持不变 -->
         <div id="sidebar">
             <img src="./img/TabXMLogo.png" alt="Logo" style="width: 100%; margin-bottom: 20px;">
             <div style="margin-bottom: 20px;">
