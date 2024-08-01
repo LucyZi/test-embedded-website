@@ -1,222 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My embedded Tableau visualization</title>
-  <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
-  <style>
-    html, body {
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    #wrapper {
-      height: 80vh;
-      width: 100%;
-      margin: 10vh auto;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    #app {
-      display: flex;
-      flex-grow: 1;
-      overflow: hidden;
-    }
-    #sidebar {
-      width: 200px;
-      background-color: #f0f0f0;
-      padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-      overflow-y: auto;
-    }
-    #content {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .nav-button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #e0e0e0;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .nav-button:hover {
-      background-color: #d0d0d0;
-    }
-    .nav-button.active {
-      background-color: #007bff;
-      color: white;
-    }
-    #viz-container {
-      flex-grow: 1;
-      position: relative;
-    }
-    tableau-viz {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 100%;
-      width: 100%;
-    }
-    ::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
-    .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow,
-    .tab-zone-margin, .tab-zone-padding {
-      height: 0px !important;
-      overflow: hidden !important;
-      border: none !important;
-      background-color: transparent !important;
-      padding: 0px !important;
-      margin: 0px !important;
-    }
-    #tab-dashboard-region {
-      height: 0px !important;
-      overflow: hidden !important;
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My embedded Tableau visualization</title>
+    <link href="//cdn.muicss.com/mui-0.9.21/css/mui.min.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://tableau.xeomatrix.net/javascripts/api/tableau-2.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #wrapper {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+        }
+        #sidebar {
+            width: 200px;
+            background-color: #0F1924;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #toolbar {
+            background-color: #1E9FD6;
+            height: 40px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #1E9FD6;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover, .nav-button.active {
+            background-color: #1a8abf;
+        }
+        #viz-container {
+            flex-grow: 1;
+            position: relative;
+        }
+        tableau-viz {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-  <div id="wrapper">
-    <div id="app">
-      <div id="sidebar"></div>
-      <div id="content">
-        <div id="viz-container">
-          <tableau-viz
-            id="tableauViz"
-            src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
-            device="desktop"
-            hide-tabs
-            toolbar="hidden"
-          ></tableau-viz>
+    <div id="wrapper">
+        <div id="sidebar">
+            <img src="./img/TabXMLogo.png" alt="Logo" style="width: 100%; margin-bottom: 20px;">
+            <div style="margin-bottom: 20px;">
+                <div>John Smith</div>
+                <div style="color: #1E9FD6;">Store Manager</div>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <div>RESTAURANT:</div>
+                <select style="width: 100%; margin-top: 5px; background-color: #424452; color: white; border: none; padding: 5px;">
+                    <option>Store 105</option>
+                </select>
+            </div>
+            <div>NAVIGATION</div>
+            <button class="nav-button active">Overview</button>
+            <button class="nav-button">Sales</button>
+            <button class="nav-button">Service</button>
+            <div style="margin-top: auto;">
+                <img src="./img/TabHeader.png" alt="Tab Header" style="width: 100%;">
+            </div>
         </div>
-      </div>
+        <div id="content">
+            <div id="toolbar">
+                <button style="background: none; border: none; cursor: pointer; margin-right: 10px;">
+                    <img src="./img/xls.png" alt="Excel" height="22px">
+                </button>
+                <button style="background: none; border: none; cursor: pointer; margin-right: 10px;">
+                    <img src="./img/pdf.png" alt="PDF" height="22px">
+                </button>
+                <span style="color: white; cursor: pointer;">LOGOUT</span>
+            </div>
+            <div id="viz-container">
+                <tableau-viz id="tableauViz" 
+                    src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
+                    device="desktop" 
+                    hide-tabs
+                    toolbar="hidden">
+                </tableau-viz>
+            </div>
+        </div>
     </div>
-  </div>
-  <script type="module">
-    import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
+    <script type="module">
+        import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
 
-    // 定义多个 dashboard 的 URL
-    const dashboards = [
-      { name: 'Dashboard 1', url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-      { name: 'Dashboard 2', url: 'https://public.tableau.com/views/US_regrouped_layer2/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-      { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
-    ];
+        const dashboards = [
+            { name: 'Dashboard 1', url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Dashboard 2', url: 'https://public.tableau.com/views/US_regrouped_layer2/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
+        ];
 
-    // 创建导航按钮
-    function createNavigation() {
-      const sidebar = document.getElementById('sidebar');
-      dashboards.forEach((dashboard, index) => {
-        const button = document.createElement('button');
-        button.textContent = dashboard.name;
-        button.className = 'nav-button';
-        button.onclick = () => loadDashboard(index);
-        sidebar.appendChild(button);
-      });
-    }
+        function setActiveButton(index) {
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach((button, i) => {
+                button.classList.toggle('active', i === index);
+            });
+        }
 
-    // 设置活动按钮样式
-    function setActiveButton(index) {
-      const buttons = document.querySelectorAll('.nav-button');
-      buttons.forEach((button, i) => {
-        button.classList.toggle('active', i === index);
-      });
-    }
+        async function loadDashboard(index) {
+            try {
+                const viz = document.getElementById('tableauViz');
+                viz.src = dashboards[index].url;
 
-    // 强制移除不需要的元素
-    function forceRemoveElements() {
-      const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region');
-      elementsToRemove.forEach(el => el.parentNode?.removeChild(el));
-    }
+                await new Promise((resolve, reject) => {
+                    viz.addEventListener(TableauEventType.FirstInteractive, () => {
+                        console.log('Viz is interactive!');
+                        resolve();
+                    });
 
-    // 加载指定的 dashboard
-    async function loadDashboard(index) {
-      try {
-        const viz = document.getElementById('tableauViz');
-        viz.src = dashboards[index].url;
-        viz.hideTabs = true; // 设置隐藏标签页
+                    viz.addEventListener(TableauEventType.VizLoadError, (error) => {
+                        reject(`Failed to load dashboard: ${error}`);
+                    });
+                });
 
-        // 等待 viz 变为可交互
-        await new Promise((resolve, reject) => {
-          viz.addEventListener(TableauEventType.FirstInteractive, () => {
-            console.log('Viz is interactive!');
-            resolve();
-          });
+                setActiveButton(index);
 
-          viz.addEventListener(TableauEventType.VizLoadError, (error) => {
-            const message = JSON.parse(error.detail.message);
-            const errorMessage = JSON.parse(message.errorMessage);
-            const displayMessage = `ca-error-${errorMessage.result.errors[0].code}`;
-            reject(displayMessage);
-          });
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert(`Failed to load dashboard. Please try again later. Error: ${error}`);
+            }
+        }
+
+        // Initialize
+        document.querySelectorAll('.nav-button').forEach((button, index) => {
+            button.onclick = () => loadDashboard(index);
         });
 
-        // 设置活动按钮
-        setActiveButton(index);
-
-        // 强制移除不需要的元素
-        forceRemoveElements();
-
-        // 在这里可以添加额外的逻辑，比如获取工作表等
-        if (viz.workbook) {
-          const activeSheet = viz.workbook.activeSheet;
-          if (activeSheet.sheetType === SheetType.Dashboard) {
-            console.log('Current sheet is a dashboard');
-            // 可以在这里添加与 dashboard 相关的逻辑
-          } else {
-            console.log('Current sheet is a worksheet');
-            // 可以在这里添加与工作表相关的逻辑
-          }
-        }
-
-      } catch (error) {
-        console.error('Error loading dashboard:', error);
-        // 显示用户友好的错误消息
-        alert(`Failed to load dashboard. Please try again later. Error: ${error}`);
-      }
-    }
-
-    // 初始化函数
-    function init() {
-      createNavigation();
-      loadDashboard(0); // 加载第一个 dashboard
-    }
-
-    // 调用初始化函数
-    init();
-
-    // 在页面加载完成后执行
-    window.addEventListener('load', forceRemoveElements);
-
-    // 创建一个MutationObserver来监视DOM变化
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-          forceRemoveElements();
-        }
-      });
-    });
-
-    // 配置observer
-    const config = { childList: true, subtree: true };
-
-    // 开始观察document.body的变化
-    observer.observe(document.body, config);
-  </script>  
+        loadDashboard(0); // Load the first dashboard
+    </script>
 </body>
 </html>
