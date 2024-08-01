@@ -128,15 +128,7 @@
       // 移除不需要的元素
       function removeUnwantedElements() {
         const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region');
-        elementsToRemove.forEach(el => {
-          el.style.display = 'none';
-          el.style.height = '0';
-          el.style.margin = '0';
-          el.style.padding = '0';
-          el.style.overflow = 'hidden';
-          el.style.border = 'none';
-          el.style.backgroundColor = 'transparent';
-        });
+        elementsToRemove.forEach(el => el.remove());
       }
 
       // 加载指定的 dashboard
