@@ -11,12 +11,21 @@
         width: 100%;
         margin: 0;
         padding: 0;
-        overflow: hidden;
         font-family: Arial, sans-serif;
+      }
+      #wrapper {
+        height: 80vh;
+        width: 100%;
+        margin: 10vh auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
       }
       #app {
         display: flex;
-        height: 100vh;
+        flex-grow: 1;
+        overflow: hidden;
       }
       #sidebar {
         width: 200px;
@@ -27,9 +36,9 @@
       }
       #content {
         flex-grow: 1;
-        overflow: hidden;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
       }
       .nav-button {
         display: block;
@@ -73,18 +82,20 @@
     </style>
   </head>
   <body>
-    <div id="app">
-      <div id="sidebar"></div>
-      <div id="content">
-        <div id="viz-container">
-          <tableau-viz
-            id="tableauViz"
-            src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
-            device="desktop"
-            hide-tabs
-            toolbar="hidden"
-          >
-          </tableau-viz>
+    <div id="wrapper">
+      <div id="app">
+        <div id="sidebar"></div>
+        <div id="content">
+          <div id="viz-container">
+            <tableau-viz
+              id="tableauViz"
+              src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
+              device="desktop"
+              hide-tabs
+              toolbar="hidden"
+            >
+            </tableau-viz>
+          </div>
         </div>
       </div>
     </div>
