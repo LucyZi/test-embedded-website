@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My embedded Tableau visualization</title>
+  <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
   <style>
     html, body {
       height: 100%;
@@ -75,6 +76,19 @@
       width: 0px;
       background: transparent;
     }
+    .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow,
+    .tab-zone-margin, .tab-zone-padding {
+      height: 0px !important;
+      overflow: hidden !important;
+      border: none !important;
+      background-color: transparent !important;
+      padding: 0px !important;
+      margin: 0px !important;
+    }
+    #tab-dashboard-region {
+      height: 0px !important;
+      overflow: hidden !important;
+    }
   </style>
 </head>
 <body>
@@ -126,13 +140,8 @@
 
     // 强制移除不需要的元素
     function forceRemoveElements() {
-      const interval = setInterval(() => {
-        const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region');
-        elementsToRemove.forEach(el => el.parentNode.removeChild(el));
-        if (elementsToRemove.length === 0) {
-          clearInterval(interval);
-        }
-      }, 100);
+      const elementsToRemove = document.querySelectorAll('.tab-zone, .tab-zone-margin, .tab-zone-padding, #tab-dashboard-region');
+      elementsToRemove.forEach(el => el.parentNode?.removeChild(el));
     }
 
     // 加载指定的 dashboard
