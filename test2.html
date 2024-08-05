@@ -32,7 +32,6 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
         #logo-container {
             display: flex;
@@ -53,16 +52,11 @@
             align-items: center;
             padding: 0 20px;
         }
-        #navigation-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         .nav-button {
             display: block;
-            width: 100%;
-            padding: 15px 20px;
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            padding: 15px 60px;
             margin-top: 10px;
             margin-bottom: 15px;
             background-color: #60e1f6;
@@ -70,19 +64,18 @@
             color: white;
             cursor: pointer;
             transition: background-color 0.3s;
-            text-align: left;
+            text-align: center;
         }
         .nav-button:hover, .nav-button.active {
             background-color: #05B1CC;
         }
         .nav-button.has-subnav {
             position: relative;
-            padding-left: 40px;
         }
         .nav-button.has-subnav::before {
             content: '\25BC';
             position: absolute;
-            left: 20px;
+            left: 40px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 0.7em;
@@ -91,14 +84,13 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
-            width: 100%;
         }
         .sub-nav.show {
             max-height: 200px;
         }
         .sub-nav .nav-button {
             background: none;
-            padding-left: 40px;
+            padding: 15px 60px;
             margin-top: 5px;
             margin-bottom: 5px;
         }
@@ -163,7 +155,6 @@
             text-align: center;
             font-size: 1.2em;
             margin-bottom: 10px;
-            width: 100%;
         }
     </style>
 </head>
@@ -177,15 +168,13 @@
                 <div>User</div>
                 <div class="position">Position</div>
             </div>
-            <div id="navigation-container">
-                <div class="navigation-title">Navigation</div>
-                <button class="nav-button has-subnav" data-dashboard="1">Home-Based Medical Care</button>
-                <div class="sub-nav" id="sub-nav-1">
-                    <button class="nav-button" data-dashboard="2">Home Health</button>
-                    <button class="nav-button" data-dashboard="3">Hospice</button>
-                </div>
-                <button class="nav-button" data-dashboard="4">Illinois House Call Project</button>
+            <div class="navigation-title">Navigation</div>
+            <button class="nav-button has-subnav" data-dashboard="1">Home-Based Medical Care</button>
+            <div class="sub-nav" id="sub-nav-1">
+                <button class="nav-button" data-dashboard="2">Home Health</button>
+                <button class="nav-button" data-dashboard="3">Hospice</button>
             </div>
+            <button class="nav-button" data-dashboard="4">Illinois House Call Project</button>
         </div>
         <div id="content">
             <div id="toolbar">
