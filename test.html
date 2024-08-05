@@ -1,199 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My embedded Tableau visualization</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XeoMatrix Portal</title>
     <link href="//cdn.muicss.com/mui-0.9.21/css/mui.min.css" rel="stylesheet" type="text/css" media="screen">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script type="text/javascript" src="https://tableau.xeomatrix.net/javascripts/api/tableau-2.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-26231348-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-26231348-1');
+    </script>
     <style>
         html, body {
             height: 100%;
-            width: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
+            font-family: 'Nunito', Arial, sans-serif;
         }
-        #wrapper {
-            width: 100%;
-            height: 100%;
+        #app {
             display: flex;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1);
+            height: 100vh;
         }
         #sidebar {
-            width: 300px;
+            width: 250px;
             background-color: #0F1924;
             color: white;
             padding: 20px;
             display: flex;
             flex-direction: column;
         }
-        #logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
         #content {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
         #toolbar {
-            background-color: #1E9FD6;
             height: 40px;
+            background-color: #1E9FD6;
             display: flex;
-            justify-content: flex-end;
             align-items: center;
             padding: 0 20px;
-        }
-        .nav-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #1E9FD6;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .nav-button:hover, .nav-button.active {
-            background-color: #1a8abf;
-        }
-        .sub-nav {
-            margin-left: 20px;
-            display: none;
-        }
-        .sub-nav.show {
-            display: block;
         }
         #viz-container {
             flex-grow: 1;
             position: relative;
             overflow: hidden;
         }
-        #tableauViz {
+        .nav-button {
+            background-color: #1E9FD6;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
             width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
+            text-align: left;
+        }
+        .nav-button.active {
+            background-color: #1a8abf;
+        }
+        #logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #logo img {
+            max-width: 100%;
         }
     </style>
 </head>
 <body>
-    <div id="wrapper">
+    <div id="app">
         <div id="sidebar">
-            <div id="logo-container">
-                <img src="https://lucyzi.github.io/hccilogo/hcciLogo.png" alt="Logo" style="width: 50%;">
+            <div id="logo">
+                <img src="path/to/your/logo.png" alt="XeoMatrix Logo">
             </div>
-            <div style="margin-bottom: 20px;">
-                <div>User</div>
-                <div style="color: #1E9FD6;">Position</div>
-            </div>
-            <div>Navigation</div>
-            <button class="nav-button" data-dashboard="1">Dashboard 1</button>
-            <div class="sub-nav" id="sub-nav-1">
-                <button class="nav-button" data-dashboard="2">Dashboard 2</button>
-            </div>
-            <button class="nav-button" data-dashboard="3">Dashboard 3</button>
+            <button class="nav-button active" onclick="loadDashboard(0)">Overview</button>
+            <button class="nav-button" onclick="loadDashboard(1)">Sales</button>
+            <button class="nav-button" onclick="loadDashboard(2)">Service</button>
         </div>
         <div id="content">
             <div id="toolbar">
-                <button id="downloadImage" style="background: none; border: none; cursor: pointer; margin-right: 10px;">
-                    <img src="https://lucyzi.github.io/test-embedded-website/img_white.png" alt="IMG" height="22px">
-                </button>
-                <button id="downloadPDF" style="background: none; border: none; cursor: pointer; margin-right: 10px;">
-                    <img src="https://lucyzi.github.io/test-embedded-website/pdf_white.png" alt="PDF" height="22px">
-                </button>
-                <span style="color: white; cursor: pointer;">LOG OUT</span>
+                <span style="color: white; margin-right: auto;">Welcome, John Smith</span>
+                <button onclick="logout()" style="background: none; border: none; color: white; cursor: pointer;">Logout</button>
             </div>
             <div id="viz-container"></div>
         </div>
     </div>
-    <script type="module">
-        import { TableauViz, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
 
-        const dashboards = [
-            { name: 'Dashboard 1', url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map' },
-            { name: 'Dashboard 2', url: 'https://public.tableau.com/views/US_regrouped_layer2/HBMCataGlance_map' },
-            { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map' }
-        ];
-
+    <script>
         let viz;
-
-        function setActiveButton(button) {
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-        }
+        const dashboards = [
+            { url: 'https://tableau.xeomatrix.net/trusted/Nf5TGSm6TJyNuHQhUdyjmw==:pAm5gcWlpcKH6UW5b1DKH71u/views/Overviewnew/Overview' },
+            { url: 'https://tableau.xeomatrix.net/trusted/Nf5TGSm6TJyNuHQhUdyjmw==:pAm5gcWlpcKH6UW5b1DKH71u/views/Overviewnew/Sales' },
+            { url: 'https://tableau.xeomatrix.net/trusted/Nf5TGSm6TJyNuHQhUdyjmw==:pAm5gcWlpcKH6UW5b1DKH71u/views/Overviewnew/Service' }
+        ];
 
         function loadDashboard(index) {
             const container = document.getElementById('viz-container');
             container.innerHTML = '';
 
-            viz = new TableauViz();
-            viz.src = dashboards[index].url;
-            viz.hideTabs = true;
-            viz.hideToolbar = true;
-            viz.device = 'desktop';
-
-            // 设置尺寸为容器的100%
-            viz.width = '100%';
-            viz.height = '100%';
-
-            container.appendChild(viz);
-        }
-
-        // Initialize
-        document.querySelectorAll('.nav-button').forEach((button) => {
-            button.onclick = function() {
-                const dashboardIndex = parseInt(this.getAttribute('data-dashboard')) - 1;
-                loadDashboard(dashboardIndex);
-                setActiveButton(this);
-
-                // Toggle sub-nav for Dashboard 1
-                if (dashboardIndex === 0) {
-                    document.getElementById('sub-nav-1').classList.toggle('show');
-                } else {
-                    document.getElementById('sub-nav-1').classList.remove('show');
+            const options = {
+                hideTabs: true,
+                hideToolbar: true,
+                width: '100%',
+                height: '100%',
+                onFirstInteractive: function () {
+                    console.log("Dashboard is interactive and loaded");
                 }
             };
-        });
 
-        // Load the first dashboard by default
+            viz = new tableau.Viz(container, dashboards[index].url, options);
+
+            // Update active button
+            document.querySelectorAll('.nav-button').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function logout() {
+            // Implement logout functionality
+            console.log("Logout clicked");
+        }
+
+        // Load initial dashboard
         loadDashboard(0);
-        setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
 
-        // Add event listeners for download buttons
-        document.getElementById('downloadImage').addEventListener('click', function() {
+        // Resize handler
+        window.addEventListener('resize', function() {
             if (viz) {
-                viz.exportImageAsync().then((url) => {
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'dashboard_image.png';
-                    link.click();
-                }).catch((error) => {
-                    console.error('Error exporting image:', error);
-                    alert('Unable to export image. Please try again later.');
-                });
-            }
-        });
-
-        document.getElementById('downloadPDF').addEventListener('click', function() {
-            if (viz) {
-                try {
-                    viz.showExportPDFDialog();
-                } catch (error) {
-                    console.error('Error exporting PDF:', error);
-                    alert('Unable to export PDF. This might be due to restrictions set by the Tableau server administrator.');
-                }
+                viz.setFrameSize(container.offsetWidth, container.offsetHeight);
             }
         });
     </script>
