@@ -5,126 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My embedded Tableau visualization</title>
-    <link href="//cdn.muicss.com/mui-0.9.21/css/mui.min.css" rel="stylesheet" type="text/css" media="screen">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
     <style>
         html, body {
             height: 100%;
-            width: 100%;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
-        }
-        #wrapper {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1);
-        }
-        #sidebar {
-            width: 300px;
-            background-color: #0F1924;
-            color: white;
-            padding: 20px;
             display: flex;
             flex-direction: column;
         }
-        #logo-container {
+        #navContainer {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
-        }
-        #content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            height: 100%;
-        }
-        #toolbar {
-            background-color: #1E9FD6;
-            height: 40px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            padding: 0 20px;
-            flex-shrink: 0;
-        }
-        .nav-button {
-            display: block;
-            width: 100%;
-            padding: 10px;
+            gap: 10px;
             margin-bottom: 10px;
-            background-color: #1E9FD6;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
             border: none;
             border-radius: 5px;
-            color: white;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .nav-button:hover, .nav-button.active {
-            background-color: #1a8abf;
+        button.active {
+            background-color: #007bff;
+            color: white;
         }
-        .sub-nav {
-            margin-left: 20px;
-            display: none;
-        }
-        .sub-nav.show {
-            display: block;
-        }
-        #viz-container {
+        tableau-viz {
             flex-grow: 1;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-            min-height: 0; 
-        }
-        #tableauViz {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        .tab-zone {
-            display: none !important;
+            width: 100%; /* Ensures that the viz takes the remaining height */
         }
     </style>
 </head>
 <body>
-    <div id="wrapper">
-        <div id="sidebar">
-            <div id="logo-container">
-                <img src="https://lucyzi.github.io/hccilogo/hcciLogo.png" alt="Logo" style="width: 50%;">
-            </div>
-            <div style="margin-bottom: 20px;">
-                <div>User</div>
-                <div style="color: #1E9FD6;">Position</div>
-            </div>
-            <div>Navigation</div>
-            <button class="nav-button" data-dashboard="1">Dashboard 1</button>
-            <div class="sub-nav" id="sub-nav-1">
-                <button class="nav-button" data-dashboard="2">Dashboard 2</button>
-            </div>
-            <button class="nav-button" data-dashboard="3">Dashboard 3</button>
-        </div>
-        <div id="content">
-            <div id="toolbar">
-                <button id="downloadImage" style="background: none; border: none; cursor: pointer; margin-right: 10px;">
-                    <img src="https://lucyzi.github.io/test-embedded-website/img_white.png" alt="IMG" height="22px">
-                </button>
-                <button id="downloadPDF" style="background: none; border: none; cursor: pointer; margin-right: 10px;">
-                    <img src="https://lucyzi.github.io/test-embedded-website/pdf_white.png" alt="PDF" height="22px">
-                </button>
-                <span style="color: white; cursor: pointer;">LOG OUT</span>
-            </div>
-            <div id="viz-container"></div>
-        </div>
+    <div id="navContainer">
+        <button data-dashboard="1">Dashboard 1</button>
+        <button data-dashboard="2">Dashboard 2</button>
+        <button data-dashboard="3">Dashboard 3</button>
     </div>
+    <tableau-viz id="tableauViz"
+        src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
+        device="desktop"
+        hide-tabs="true"
+        toolbar="hidden"
+    ></tableau-viz>
     <script type="module">
         import { TableauViz, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
 
@@ -134,80 +58,44 @@
             { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map' }
         ];
 
-        let viz;
+        document.querySelectorAll('#navContainer button').forEach((button, index) => {
+            button.addEventListener('click', () => {
+                loadDashboard(index);
+                setActiveButton(index);
+            });
+        });
 
-        function setActiveButton(button) {
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-        }
-
-        function loadDashboard(index) {
-            const container = document.getElementById('viz-container');
-            container.innerHTML = '';
-
-            viz = new TableauViz();
-            viz.src = dashboards[index].url;
-            viz.hideTabs = true;
-            viz.hideToolbar = true;
-            viz.device = 'desktop';
-            viz.width = '100%';
-            viz.height = '100%';
-
-            container.appendChild(viz);
-
-            viz.addEventListener(TableauEventType.FirstInteractive, function() {
-                const tabZone = document.querySelector('.tab-zone');
-                if (tabZone) {
-                    tabZone.style.display = 'none';
+        function setActiveButton(activeIndex) {
+            document.querySelectorAll('#navContainer button').forEach((btn, idx) => {
+                if (idx === activeIndex) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
                 }
             });
         }
 
-        // Initialize
-        document.querySelectorAll('.nav-button').forEach((button) => {
-            button.onclick = function() {
-                const dashboardIndex = parseInt(this.getAttribute('data-dashboard')) - 1;
-                loadDashboard(dashboardIndex);
-                setActiveButton(this);
+        async function loadDashboard(index) {
+            const viz = document.getElementById('tableauViz');
+            viz.src = dashboards[index].url;
 
-                // Toggle sub-nav for Dashboard 1
-                if (dashboardIndex === 0) {
-                    document.getElementById('sub-nav-1').classList.toggle('show');
-                } else {
-                    document.getElementById('sub-nav-1').classList.remove('show');
-                }
-            };
-        });
-
-        // Load the first dashboard by default
-        loadDashboard(0);
-        setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
-
-        // Add event listeners for download buttons
-        document.getElementById('downloadImage').addEventListener('click', function() {
-            if (viz) {
-                viz.exportImageAsync().then((url) => {
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'dashboard_image.png';
-                    link.click();
-                }).catch((error) => {
-                    console.error('Error exporting image:', error);
-                    alert('Unable to export image. Please try again later.');
+            try {
+                await new Promise((resolve, reject) => {
+                    viz.addEventListener(TableauEventType.FirstInteractive, resolve);
+                    viz.addEventListener(TableauEventType.VizLoadError, (error) => {
+                        console.error('Error loading dashboard:', error);
+                        reject(new Error('Dashboard loading failed'));
+                    });
                 });
+                console.log('Dashboard is interactive!');
+            } catch (error) {
+                alert('Failed to load dashboard. Please try again later.');
             }
-        });
+        }
 
-        document.getElementById('downloadPDF').addEventListener('click', function() {
-            if (viz) {
-                try {
-                    viz.showExportPDFDialog();
-                } catch (error) {
-                    console.error('Error exporting PDF:', error);
-                    alert('Unable to export PDF. This might be due to restrictions set by the Tableau server administrator.');
-                }
-            }
-        });
+        // Load the first dashboard initially
+        loadDashboard(0);
+        setActiveButton(0);
     </script>
 </body>
 </html>
