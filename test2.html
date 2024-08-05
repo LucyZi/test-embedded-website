@@ -104,19 +104,7 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow: hidden;
         }
-
-        #viz-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: calc(100% + 50px); /* 增加高度以覆盖工具栏 */
-            border: none;
-        }
-
-        
         #tableauViz {
             width: 100%;
             height: 100%;
@@ -169,9 +157,6 @@
             font-size: 1.2em;
             margin-bottom: 10px;
         }
-
-
-
     </style>
 </head>
 <body>
@@ -228,11 +213,9 @@
 
             viz = new TableauViz();
             viz.src = dashboards[index].url;
-            viz.toolbar = 'hidden';
             viz.hideTabs = true;
+            viz.hideToolbar = true;
             viz.device = 'desktop';
-
-            viz.toolbarDisplay = viz.TOOLBAR_DISPLAY.NONE;
 
             viz.addEventListener(TableauEventType.FirstInteractive, () => {
                 container.querySelector('.loading').remove();
