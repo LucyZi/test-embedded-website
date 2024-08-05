@@ -79,9 +79,9 @@
             <div id="logo">
                 <img src="path/to/your/logo.png" alt="XeoMatrix Logo">
             </div>
-            <button class="nav-button active" onclick="loadDashboard(0)">Overview</button>
-            <button class="nav-button" onclick="loadDashboard(1)">Sales</button>
-            <button class="nav-button" onclick="loadDashboard(2)">Service</button>
+            <button class="nav-button active" onclick="loadDashboard(0)">Dashboard 1</button>
+            <button class="nav-button" onclick="loadDashboard(1)">Dashboard 2</button>
+            <button class="nav-button" onclick="loadDashboard(2)">Dashboard 3</button>
         </div>
         <div id="content">
             <div id="toolbar">
@@ -95,9 +95,9 @@
     <script>
         let viz;
         const dashboards = [
-            { url: 'https://tableau.xeomatrix.net/trusted/Nf5TGSm6TJyNuHQhUdyjmw==:pAm5gcWlpcKH6UW5b1DKH71u/views/Overviewnew/Overview' },
-            { url: 'https://tableau.xeomatrix.net/trusted/Nf5TGSm6TJyNuHQhUdyjmw==:pAm5gcWlpcKH6UW5b1DKH71u/views/Overviewnew/Sales' },
-            { url: 'https://tableau.xeomatrix.net/trusted/Nf5TGSm6TJyNuHQhUdyjmw==:pAm5gcWlpcKH6UW5b1DKH71u/views/Overviewnew/Service' }
+            { url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { url: 'https://public.tableau.com/views/US_regrouped_layer2/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
         ];
 
         function loadDashboard(index) {
