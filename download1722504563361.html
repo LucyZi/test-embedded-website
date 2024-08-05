@@ -17,7 +17,7 @@
       src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
       device="desktop"
       hide-tabs
-      toolbar="hidden"
+      toolbar="bottom"
     >
     </tableau-viz>
     <script type="module">
@@ -30,141 +30,43 @@
           { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
         ];
 
-        // 创建布局和样式
-        function createLayout() {
-          // 创建样式
-          const style = document.createElement('style');
-          style.textContent = `
-            body, html {
-              margin: 0;
-              padding: 0;
-              height: 100%;
-              overflow: hidden;
-              font-family: Arial, sans-serif;
-            }
-            #app {
-              display: flex;
-              height: 100vh;
-            }
-            #sidebar {
-              width: 200px;
-              background-color: #f0f0f0;
-              padding: 20px;
-              box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-              overflow-y: auto;
-            }
-            #content {
-              flex-grow: 1;
-              overflow: hidden;
-              display: flex;
-              flex-direction: column;
-            }
-            .nav-button {
-              display: block;
-              width: 100%;
-              padding: 10px;
-              margin-bottom: 10px;
-              background-color: #e0e0e0;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              transition: background-color 0.3s;
-            }
-            .nav-button:hover {
-              background-color: #d0d0d0;
-            }
-            .nav-button.active {
-              background-color: #007bff;
-              color: white;
-            }
-            #viz-container {
-              flex-grow: 1;
-              position: relative;
-            }
-            tableau-viz {
-              position: absolute;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-            }
-            ::-webkit-scrollbar {
-              width: 0px;
-              background: transparent;
-            }
-            .tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow {
-              height: 20px !important;
-              overflow: hidden !important;
-            }
-          `;
-          document.head.appendChild(style);
-
-          // 创建 DOM 结构
-          const app = document.createElement('div');
-          app.id = 'app';
-
-          const sidebar = document.createElement('div');
-          sidebar.id = 'sidebar';
-
-          const content = document.createElement('div');
-          content.id = 'content';
-
-          const vizContainer = document.createElement('div');
-          vizContainer.id = 'viz-container';
-
-          content.appendChild(vizContainer);
-          app.appendChild(sidebar);
-          app.appendChild(content);
-
-          // 将原有的 tableau-viz 元素移动到新的容器中
-          const tableauViz = document.querySelector('tableau-viz');
-          vizContainer.appendChild(tableauViz);
-
-          // 将新创建的结构添加到 body
-          document.body.insertBefore(app, document.body.firstChild);
-        }
-
         // 创建导航按钮
         function createNavigation() {
-          const sidebar = document.getElementById('sidebar');
+          const navContainer = document.createElement('div');
+          navContainer.id = 'navContainer';
+          navContainer.style.marginBottom = '10px';
+          navContainer.style.display = 'flex';
+          navContainer.style.justifyContent = 'center';
+          navContainer.style.gap = '10px';
+
           dashboards.forEach((dashboard, index) => {
             const button = document.createElement('button');
             button.textContent = dashboard.name;
-            button.className = 'nav-button';
             button.onclick = () => loadDashboard(index);
-            sidebar.appendChild(button);
+            button.style.padding = '10px 15px';
+            button.style.backgroundColor = '#f0f0f0';
+            button.style.border = 'none';
+            button.style.borderRadius = '5px';
+            button.style.cursor = 'pointer';
+            button.style.transition = 'background-color 0.3s, color 0.3s';
+            navContainer.appendChild(button);
           });
+
+          document.body.insertBefore(navContainer, document.body.firstChild);
         }
 
         // 设置活动按钮样式
         function setActiveButton(index) {
-          const buttons = document.querySelectorAll('.nav-button');
+          const buttons = document.querySelectorAll('#navContainer button');
           buttons.forEach((button, i) => {
-            button.classList.toggle('active', i === index);
+            if (i === index) {
+              button.style.backgroundColor = '#007bff';
+              button.style.color = 'white';
+            } else {
+              button.style.backgroundColor = '#f0f0f0';
+              button.style.color = 'black';
+            }
           });
-        }
-
-        // 调整 tab-zone 的高度
-        function adjustTabZoneHeight() {
-          const tabZones = document.querySelectorAll('.tab-zone, .tab-widget, .wcLayoutContainer, .tabZone-layout-flow');
-          tabZones.forEach(tabZone => {
-            tabZone.style.setProperty('height', '20px', 'important');
-            tabZone.style.setProperty('overflow', 'hidden', 'important');
-          });
-        }
-
-        // 创建 MutationObserver 来监视 DOM 变化
-        function createTabZoneObserver() {
-          const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (mutation.type === 'childList' || mutation.type === 'attributes') {
-                adjustTabZoneHeight();
-              }
-            });
-          });
-
-          const config = { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] };
-          observer.observe(document.body, config);
         }
 
         // 加载指定的 dashboard
@@ -175,10 +77,6 @@
 
             // 设置 token（如果需要）
             viz.token = window.token;
-
-            // 设置 viz 的大小以填满容器
-            viz.style.width = '100%';
-            viz.style.height = '100%';
 
             // 等待 viz 变为可交互
             await new Promise((resolve, reject) => {
@@ -198,9 +96,6 @@
             // 设置活动按钮
             setActiveButton(index);
 
-            // 调整 tab-zone 高度
-            adjustTabZoneHeight();
-
             // 在这里可以添加额外的逻辑，比如获取工作表等
             if (viz.workbook) {
               const activeSheet = viz.workbook.activeSheet;
@@ -216,16 +111,30 @@
           } catch (error) {
             console.error('Error loading dashboard:', error);
             // 显示用户友好的错误消息
-            alert(`Failed to load dashboard. Please try again later. Error: ${error}`);
+            const errorMessage = document.createElement('div');
+            errorMessage.textContent = `Failed to load dashboard. Please try again later.`;
+            errorMessage.style.color = 'red';
+            errorMessage.style.textAlign = 'center';
+            errorMessage.style.marginTop = '20px';
+            document.body.appendChild(errorMessage);
           }
         }
 
         // 初始化函数
         function init() {
-          createLayout();
           createNavigation();
-          createTabZoneObserver();
           loadDashboard(0); // 加载第一个 dashboard
+
+          // 添加响应式设计
+          window.addEventListener('resize', () => {
+            const viz = document.querySelector('tableau-viz');
+            if (viz) {
+              viz.style.width = '100%';
+              viz.style.height = `${window.innerHeight - 100}px`; // 减去导航栏的高度
+            }
+          });
+          // 初始触发一次 resize 事件
+          window.dispatchEvent(new Event('resize'));
         }
 
         // 调用初始化函数
