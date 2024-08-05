@@ -7,6 +7,7 @@
     <title>My embedded Tableau visualization</title>
     <link href="//cdn.muicss.com/mui-0.9.21/css/mui.min.css" rel="stylesheet" type="text/css" media="screen">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
     <style>
         html, body {
             height: 100%;
@@ -101,11 +102,6 @@
             flex-grow: 1;
             position: relative;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
         .loading {
             position: absolute;
             top: 50%;
@@ -184,18 +180,18 @@
                 </button>
                 <span style="color: #033954; cursor: pointer;">LOG OUT</span>
             </div>
-            <div id="viz-container">
-                <div class="loading">Loading</div>
-            </div>
+            <div id="viz-container"></div>
         </div>
     </div>
     <script>
         const dashboards = [
-            { name: 'Home-Based Medical Care', url: 'https://public.tableau.com/views/B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-            { name: 'Home Health', url: 'https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HomeHealthProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-            { name: 'Hospice', url: 'https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HospiceProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-            { name: 'Illinois House Call Project', url: 'https://public.tableau.com/views/ILHCPC2ServiceAreas_2/ILHCPC2ServiceAreas?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
+            { name: 'Home-Based Medical Care', url: 'https://public.tableau.com/views/B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel/HBMCataGlance_map' },
+            { name: 'Home Health', url: 'https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HomeHealthProgramsbyPatientCountyandTheirPerformance' },
+            { name: 'Hospice', url: 'https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HospiceProgramsbyPatientCountyandTheirPerformance' },
+            { name: 'Illinois House Call Project', url: 'https://public.tableau.com/views/ILHCPC2ServiceAreas_2/ILHCPC2ServiceAreas' }
         ];
+
+        let viz;
 
         function setActiveButton(button) {
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
@@ -206,16 +202,14 @@
             const container = document.getElementById('viz-container');
             container.innerHTML = '<div class="loading">Loading</div>';
 
-            const iframe = document.createElement('iframe');
-            iframe.src = `${dashboards[index].url}?:embed=yes&:toolbar=no`;
-            iframe.frameBorder = "0";
-            iframe.allowFullscreen = true;
-
-            iframe.onload = function() {
-                container.querySelector('.loading').remove();
+            const options = {
+                hideTabs: true,
+                hideToolbar: true,
+                width: '100%',
+                height: '100%'
             };
 
-            container.appendChild(iframe);
+            viz = new tableau.Viz(container, dashboards[index].url, options);
 
             // Keep sub-nav open if it's a sub-nav item
             if (index === 1 || index === 2) {
@@ -238,16 +232,22 @@
         });
 
         // Load the first dashboard by default
-        loadDashboard(0);
-        setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard(0);
+            setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
+        });
 
         // Add event listeners for download buttons
         document.getElementById('downloadImage').addEventListener('click', function() {
-            alert('Image download functionality needs to be implemented separately for iframe embedding.');
+            if (viz) {
+                viz.showExportImageDialog();
+            }
         });
 
         document.getElementById('downloadPDF').addEventListener('click', function() {
-            alert('PDF download functionality needs to be implemented separately for iframe embedding.');
+            if (viz) {
+                viz.showExportPDFDialog();
+            }
         });
     </script>
 </body>
