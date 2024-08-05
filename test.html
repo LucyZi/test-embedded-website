@@ -122,6 +122,13 @@
                     .5em 0 0 #333;
             }
         }
+        #user-info {
+            text-align: center;
+            margin: 20px 0 50px 0;
+        }
+        #user-info .position {
+            color: #60e1f6;
+        }
     </style>
 </head>
 <body>
@@ -130,9 +137,9 @@
             <div id="logo-container">
                 <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 50%;">
             </div>
-            <div style="margin-bottom: 20px;">
+            <div id="user-info">
                 <div>User</div>
-                <div style="color: #1E9FD6;">Position</div>
+                <div class="position">Position</div>
             </div>
             <div>Navigation</div>
             <button class="nav-button" data-dashboard="1">Home-Based Medical Care</button>
@@ -187,6 +194,11 @@
             });
 
             container.appendChild(viz);
+
+            // Keep sub-nav open if it's a sub-nav item
+            if (index === 1 || index === 2) {
+                document.getElementById('sub-nav-1').classList.add('show');
+            }
         }
 
         // Initialize
@@ -196,11 +208,9 @@
                 loadDashboard(dashboardIndex);
                 setActiveButton(this);
 
-                // Toggle sub-nav for Dashboard 1
+                // Toggle sub-nav for Dashboard 1, but don't close it for sub-items
                 if (dashboardIndex === 0) {
                     document.getElementById('sub-nav-1').classList.toggle('show');
-                } else {
-                    document.getElementById('sub-nav-1').classList.remove('show');
                 }
             };
         });
