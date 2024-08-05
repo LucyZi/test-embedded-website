@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My embedded Tableau visualization</title>
+    <link href="//cdn.muicss.com/mui-0.9.21/css/mui.min.css" rel="stylesheet" type="text/css" media="screen">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+        }
+        #wrapper {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1);
+        }
+        #sidebar {
+            width: 300px;
+            background-color: #033954;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        #logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        #content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #toolbar {
+            background-color: #d9f5fc;
+            height: 40px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            background-color: #60e1f6;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover, .nav-button.active {
+            background-color: #05B1CC;
+        }
+        .sub-nav {
+            margin-left: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .sub-nav.show {
+            max-height: 200px;
+        }
+        #viz-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        #tableauViz {
+            width: 100%;
+            height: 100%;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .loading:after {
+            content: '.';
+            animation: dots 1s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% {
+                color: rgba(0,0,0,0);
+                text-shadow:
+                    .25em 0 0 rgba(0,0,0,0),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            40% {
+                color: #333;
+                text-shadow:
+                    .25em 0 0 rgba(0,0,0,0),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            60% {
+                text-shadow:
+                    .25em 0 0 #333,
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            80%, 100% {
+                text-shadow:
+                    .25em 0 0 #333,
+                    .5em 0 0 #333;
+            }
+        }
+        #user-info {
+            text-align: center;
+            font-size: 1.1em;
+            margin: 20px 0 100px 0;
+        }
+        #user-info .position {
+            color: #60e1f6;
+        }
+        .navigation-title {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="sidebar">
+            <div id="logo-container">
+                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
+            </div>
+            <div id="user-info">
+                <div>User</div>
+                <div class="position">Position</div>
+            </div>
+            <div class="navigation-title">Navigation</div>
+            <button class="nav-button" data-dashboard="1">Home-Based Medical Care</button>
+            <div class="sub-nav" id="sub-nav-1">
+                <button class="nav-button" data-dashboard="2">Home Health</button>
+                <button class="nav-button" data-dashboard="3">Hospice</button>
+            </div>
+            <button class="nav-button" data-dashboard="4">Illinois House Call Project</button>
+        </div>
+        <div id="content">
+            <div id="toolbar">
+                <button id="downloadImage" style="background: none; border: none; cursor: pointer; margin-right: 10px;" aria-label="Download Image">
+                    <img src="https://lucyzi.github.io/test-embedded-website/img_blue.png" alt="IMG" height="22px">
+                </button>
+                <button id="downloadPDF" style="background: none; border: none; cursor: pointer; margin-right: 10px;" aria-label="Download PDF">
+                    <img src="https://lucyzi.github.io/test-embedded-website/pdf_blue.png" alt="PDF" height="22px">
+                </button>
+                <span style="color: #033954; cursor: pointer;">LOG OUT</span>
+            </div>
+            <div id="viz-container"></div>
+        </div>
+    </div>
+    <script type="module">
+        import { TableauViz, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
+
+        const dashboards = [
+            { name: 'Home-Based Medical Care', url: 'https://public.tableau.com/views/B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Home Health', url: 'https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HomeHealthProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Hospice', url: 'https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HospiceProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Illinois House Call Project', url: 'https://public.tableau.com/views/ILHCPC2ServiceAreas_2/ILHCPC2ServiceAreas?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
+        ];
+
+        let viz;
+
+        function setActiveButton(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+
+        function loadDashboard(index) {
+            const container = document.getElementById('viz-container');
+            container.innerHTML = '<div class="loading">Loading</div>';
+
+            viz = new TableauViz();
+            viz.src = dashboards[index].url;
+            viz.toolbar = 'hidden';
+            viz.hideTabs = true;
+            viz.device = 'desktop';
+
+            viz.addEventListener(TableauEventType.FirstInteractive, () => {
+                container.querySelector('.loading').remove();
+            });
+
+            container.appendChild(viz);
+
+            // Keep sub-nav open if it's a sub-nav item
+            if (index === 1 || index === 2) {
+                document.getElementById('sub-nav-1').classList.add('show');
+            }
+        }
+
+        // Initialize
+        document.querySelectorAll('.nav-button').forEach((button) => {
+            button.onclick = function() {
+                const dashboardIndex = parseInt(this.getAttribute('data-dashboard')) - 1;
+                loadDashboard(dashboardIndex);
+                setActiveButton(this);
+
+                // Toggle sub-nav for Dashboard 1, but don't close it for sub-items
+                if (dashboardIndex === 0) {
+                    document.getElementById('sub-nav-1').classList.toggle('show');
+                }
+            };
+        });
+
+        // Load the first dashboard by default
+        loadDashboard(0);
+        setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
+
+        // Add event listeners for download buttons
+        document.getElementById('downloadImage').addEventListener('click', function() {
+            if (viz) {
+                viz.exportImageAsync().then((url) => {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'dashboard_image.png';
+                    link.click();
+                }).catch((error) => {
+                    console.error('Error exporting image:', error);
+                    alert('Unable to export image. Please try again later.');
+                });
+            }
+        });
+
+        document.getElementById('downloadPDF').addEventListener('click', function() {
+            if (viz) {
+                try {
+                    viz.showExportPDFDialog();
+                } catch (error) {
+                    console.error('Error exporting PDF:', error);
+                    alert('Unable to export PDF. This might be due to restrictions set by the Tableau server administrator.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
