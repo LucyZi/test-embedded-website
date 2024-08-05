@@ -54,8 +54,9 @@
         }
         .nav-button {
             display: block;
-            width: 100%;
-            padding: 15px 20px;
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            padding: 15px 40px;
             margin-top: 10px;
             margin-bottom: 15px;
             background-color: #60e1f6;
@@ -70,7 +71,6 @@
         }
         .nav-button.has-subnav {
             position: relative;
-            padding-left: 40px;
         }
         .nav-button.has-subnav::before {
             content: '\25BC';
@@ -90,7 +90,7 @@
         }
         .sub-nav .nav-button {
             background: none;
-            padding-left: 20px;
+            padding-left: 60px;
             margin-top: 5px;
             margin-bottom: 5px;
         }
