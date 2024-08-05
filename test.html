@@ -27,7 +27,7 @@
         }
         #sidebar {
             width: 300px;
-            background-color: #0F1924;
+            background-color: #033954;
             color: white;
             padding: 20px;
             display: flex;
@@ -45,7 +45,7 @@
             overflow: hidden;
         }
         #toolbar {
-            background-color: #1E9FD6;
+            background-color: #d9f5fc;
             height: 40px;
             display: flex;
             justify-content: flex-end;
@@ -57,7 +57,7 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            background-color: #1E9FD6;
+            background-color: #60e1f6;
             border: none;
             border-radius: 5px;
             color: white;
@@ -65,7 +65,7 @@
             transition: background-color 0.3s;
         }
         .nav-button:hover, .nav-button.active {
-            background-color: #1a8abf;
+            background-color: #60D2F6;
         }
         .sub-nav {
             margin-left: 20px;
@@ -135,12 +135,12 @@
                 <div style="color: #1E9FD6;">Position</div>
             </div>
             <div>Navigation</div>
-            <button class="nav-button" data-dashboard="1">Dashboard 1</button>
+            <button class="nav-button" data-dashboard="1">Home-Based Medical Care</button>
             <div class="sub-nav" id="sub-nav-1">
-                <button class="nav-button" data-dashboard="2">Dashboard 2</button>
-                <button class="nav-button" data-dashboard="3">Dashboard 3</button>
+                <button class="nav-button" data-dashboard="2">Home Health</button>
+                <button class="nav-button" data-dashboard="3">Hospice</button>
             </div>
-            <button class="nav-button" data-dashboard="4">Dashboard 4</button>
+            <button class="nav-button" data-dashboard="4">Illinois House Call Project</button>
         </div>
         <div id="content">
             <div id="toolbar">
@@ -159,10 +159,10 @@
         import { TableauViz, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
 
         const dashboards = [
-            { name: 'Dashboard 1', url: 'https://public.tableau.com/views/B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-            { name: 'Dashboard 2', url: 'https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HomeHealthProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-            { name: 'Dashboard 3', url: 'https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HospiceProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-            { name: 'Dashboard 4', url: 'https://public.tableau.com/views/ILHCPC2ServiceAreas_2/ILHCPC2ServiceAreas?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
+            { name: 'Home-Based Medical Care', url: 'https://public.tableau.com/views/B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Home Health', url: 'https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HomeHealthProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Hospice', url: 'https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HospiceProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Illinois House Call Project', url: 'https://public.tableau.com/views/ILHCPC2ServiceAreas_2/ILHCPC2ServiceAreas?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
         ];
 
         let viz;
