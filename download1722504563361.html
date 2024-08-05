@@ -1,145 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My embedded Tableau vizualization</title>
+    <title>My embedded Tableau visualization</title>
     <style>
-      html, body, tableau-viz, tableau-authoring-viz {
-        height: 100%;
-        width: 100%;
-      }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        #navContainer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        button.active {
+            background-color: #007bff;
+            color: white;
+        }
+        tableau-viz {
+            flex-grow: 1;
+            width: 100%; /* Ensures that the viz takes the remaining height */
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
+    <div id="navContainer"></div>
     <tableau-viz
-      src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
-      device="desktop"
-      hide-tabs
-      toolbar="bottom"
-    >
-    </tableau-viz>
+        src="https://public.tableau.com/views/DeveloperSuperstore/Overview"
+        device="desktop"
+        hide-tabs
+        toolbar="bottom"
+    ></tableau-viz>
     <script type="module">
-      import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
-      (async () => {
-        // 定义多个 dashboard 的 URL
+        import { SheetType, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.js';
+
         const dashboards = [
-          { name: 'Dashboard 1', url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-          { name: 'Dashboard 2', url: 'https://public.tableau.com/views/US_regrouped_layer2/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
-          { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
+            { name: 'Dashboard 1', url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Dashboard 2', url: 'https://public.tableau.com/views/US_regrouped_layer2/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Dashboard 3', url: 'https://public.tableau.com/views/IL-Cook/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
         ];
 
-        // 创建导航按钮
-        function createNavigation() {
-          const navContainer = document.createElement('div');
-          navContainer.id = 'navContainer';
-          navContainer.style.marginBottom = '10px';
-          navContainer.style.display = 'flex';
-          navContainer.style.justifyContent = 'center';
-          navContainer.style.gap = '10px';
-
-          dashboards.forEach((dashboard, index) => {
+        const navContainer = document.getElementById('navContainer');
+        dashboards.forEach((dashboard, index) => {
             const button = document.createElement('button');
             button.textContent = dashboard.name;
             button.onclick = () => loadDashboard(index);
-            button.style.padding = '10px 15px';
-            button.style.backgroundColor = '#f0f0f0';
-            button.style.border = 'none';
-            button.style.borderRadius = '5px';
-            button.style.cursor = 'pointer';
-            button.style.transition = 'background-color 0.3s, color 0.3s';
             navContainer.appendChild(button);
-          });
+        });
 
-          document.body.insertBefore(navContainer, document.body.firstChild);
-        }
-
-        // 设置活动按钮样式
-        function setActiveButton(index) {
-          const buttons = document.querySelectorAll('#navContainer button');
-          buttons.forEach((button, i) => {
-            if (i === index) {
-              button.style.backgroundColor = '#007bff';
-              button.style.color = 'white';
-            } else {
-              button.style.backgroundColor = '#f0f0f0';
-              button.style.color = 'black';
-            }
-          });
-        }
-
-        // 加载指定的 dashboard
         async function loadDashboard(index) {
-          try {
             const viz = document.querySelector('tableau-viz');
             viz.src = dashboards[index].url;
-
-            // 设置 token（如果需要）
-            viz.token = window.token;
-
-            // 等待 viz 变为可交互
-            await new Promise((resolve, reject) => {
-              viz.addEventListener(TableauEventType.FirstInteractive, () => {
-                console.log('Viz is interactive!');
-                resolve();
-              });
-
-              viz.addEventListener(TableauEventType.VizLoadError, (error) => {
-                const message = JSON.parse(error.detail.message);
-                const errorMessage = JSON.parse(message.errorMessage);
-                const displayMessage = `ca-error-${errorMessage.result.errors[0].code}`;
-                reject(displayMessage);
-              });
+            document.querySelectorAll('button').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === index);
             });
 
-            // 设置活动按钮
-            setActiveButton(index);
-
-            // 在这里可以添加额外的逻辑，比如获取工作表等
-            if (viz.workbook) {
-              const activeSheet = viz.workbook.activeSheet;
-              if (activeSheet.sheetType === SheetType.Dashboard) {
-                console.log('Current sheet is a dashboard');
-                // 可以在这里添加与 dashboard 相关的逻辑
-              } else {
-                console.log('Current sheet is a worksheet');
-                // 可以在这里添加与工作表相关的逻辑
-              }
+            try {
+                await new Promise((resolve, reject) => {
+                    viz.addEventListener(TableauEventType.FirstInteractive, resolve);
+                    viz.addEventListener(TableauEventType.VizLoadError, (error) => {
+                        console.error('Error loading dashboard:', error);
+                        reject(new Error('Dashboard loading failed'));
+                    });
+                });
+                console.log('Dashboard is interactive!');
+            } catch (error) {
+                alert('Failed to load dashboard. Please try again later.');
             }
-
-          } catch (error) {
-            console.error('Error loading dashboard:', error);
-            // 显示用户友好的错误消息
-            const errorMessage = document.createElement('div');
-            errorMessage.textContent = `Failed to load dashboard. Please try again later.`;
-            errorMessage.style.color = 'red';
-            errorMessage.style.textAlign = 'center';
-            errorMessage.style.marginTop = '20px';
-            document.body.appendChild(errorMessage);
-          }
         }
 
-        // 初始化函数
-        function init() {
-          createNavigation();
-          loadDashboard(0); // 加载第一个 dashboard
-
-          // 添加响应式设计
-          window.addEventListener('resize', () => {
-            const viz = document.querySelector('tableau-viz');
-            if (viz) {
-              viz.style.width = '100%';
-              viz.style.height = `${window.innerHeight - 100}px`; // 减去导航栏的高度
-            }
-          });
-          // 初始触发一次 resize 事件
-          window.dispatchEvent(new Event('resize'));
-        }
-
-        // 调用初始化函数
-        init();
-      })();
-    </script>  
-  </body>
+        loadDashboard(0); // Load the first dashboard initially
+    </script>
+</body>
 </html>
