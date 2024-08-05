@@ -105,7 +105,7 @@
             align-items: center;
             position: relative;
         }
-        .tableauPlaceholder {
+        #tableauViz {
             width: 100%;
             height: 100%;
         }
@@ -157,6 +157,9 @@
             font-size: 1.2em;
             margin-bottom: 10px;
         }
+
+
+
     </style>
 </head>
 <body>
@@ -190,64 +193,88 @@
             <div id="viz-container"></div>
         </div>
     </div>
+    <script type="module">
+        import { TableauViz, TableauEventType } from 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
 
-    <script type="text/javascript">
         const dashboards = [
-            { 
-                name: 'Home-Based Medical Care', 
-                embedCode: '<div class=\'tableauPlaceholder\' id=\'viz1722862002231\' style=\'position: relative\'><noscript><a href=\'#\'><img alt=\' \' src=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;B_&#47;B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel&#47;HBMCataGlance_map&#47;1_rss.png\' style=\'border: none\' /></a></noscript><object class=\'tableauViz\'  style=\'display:none;\'><param name=\'host_url\' value=\'https%3A%2F%2Fpublic.tableau.com%2F\' /> <param name=\'embed_code_version\' value=\'3\' /> <param name=\'site_root\' value=\'\' /><param name=\'name\' value=\'B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel&#47;HBMCataGlance_map\' /><param name=\'tabs\' value=\'no\' /><param name=\'toolbar\' value=\'no\' /><param name=\'static_image\' value=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;B_&#47;B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel&#47;HBMCataGlance_map&#47;1.png\' /> <param name=\'animate_transition\' value=\'yes\' /><param name=\'display_static_image\' value=\'yes\' /><param name=\'display_spinner\' value=\'yes\' /><param name=\'display_overlay\' value=\'yes\' /><param name=\'display_count\' value=\'yes\' /><param name=\'language\' value=\'en-US\' /></object></div>'
-            },
-            { 
-                name: 'Home Health', 
-                embedCode: '<div class=\'tableauPlaceholder\' id=\'viz1722862363290\' style=\'position: relative\'><noscript><a href=\'#\'><img alt=\' \' src=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ho&#47;HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS&#47;HomeHealthProgramsbyPatientCountyandTheirPerformance&#47;1_rss.png\' style=\'border: none\' /></a></noscript><object class=\'tableauViz\'  style=\'display:none;\'><param name=\'host_url\' value=\'https%3A%2F%2Fpublic.tableau.com%2F\' /> <param name=\'embed_code_version\' value=\'3\' /> <param name=\'site_root\' value=\'\' /><param name=\'name\' value=\'HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS&#47;HomeHealthProgramsbyPatientCountyandTheirPerformance\' /><param name=\'tabs\' value=\'no\' /><param name=\'toolbar\' value=\'no\' /><param name=\'static_image\' value=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ho&#47;HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS&#47;HomeHealthProgramsbyPatientCountyandTheirPerformance&#47;1.png\' /> <param name=\'animate_transition\' value=\'yes\' /><param name=\'display_static_image\' value=\'yes\' /><param name=\'display_spinner\' value=\'yes\' /><param name=\'display_overlay\' value=\'yes\' /><param name=\'display_count\' value=\'yes\' /><param name=\'language\' value=\'en-US\' /></object></div>'
-            },
-            { 
-                name: 'Hospice', 
-                embedCode: '<div class=\'tableauPlaceholder\' id=\'viz1722862404171\' style=\'position: relative\'><noscript><a href=\'#\'><img alt=\' \' src=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ho&#47;HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS&#47;HospiceProgramsbyPatientCountyandTheirPerformance&#47;1_rss.png\' style=\'border: none\' /></a></noscript><object class=\'tableauViz\'  style=\'display:none;\'><param name=\'host_url\' value=\'https%3A%2F%2Fpublic.tableau.com%2F\' /> <param name=\'embed_code_version\' value=\'3\' /> <param name=\'site_root\' value=\'\' /><param name=\'name\' value=\'HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS&#47;HospiceProgramsbyPatientCountyandTheirPerformance\' /><param name=\'tabs\' value=\'no\' /><param name=\'toolbar\' value=\'no\' /><param name=\'static_image\' value=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ho&#47;HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS&#47;HospiceProgramsbyPatientCountyandTheirPerformance&#47;1.png\' /> <param name=\'animate_transition\' value=\'yes\' /><param name=\'display_static_image\' value=\'yes\' /><param name=\'display_spinner\' value=\'yes\' /><param name=\'display_overlay\' value=\'yes\' /><param name=\'display_count\' value=\'yes\' /><param name=\'language\' value=\'en-US\' /></object></div>'
-            },
-            { 
-                name: 'Illinois House Call Project', 
-                embedCode: '<div class=\'tableauPlaceholder\' id=\'viz1722862598119\' style=\'position: relative\'><noscript><a href=\'#\'><img alt=\' \' src=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IL&#47;ILHCPC2ServiceAreas_2&#47;ILHCPC2ServiceAreas&#47;1_rss.png\' style=\'border: none\' /></a></noscript><object class=\'tableauViz\'  style=\'display:none;\'><param name=\'host_url\' value=\'https%3A%2F%2Fpublic.tableau.com%2F\' /> <param name=\'embed_code_version\' value=\'3\' /> <param name=\'site_root\' value=\'\' /><param name=\'name\' value=\'ILHCPC2ServiceAreas_2&#47;ILHCPC2ServiceAreas\' /><param name=\'tabs\' value=\'no\' /><param name=\'toolbar\' value=\'no\' /><param name=\'static_image\' value=\'https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;IL&#47;ILHCPC2ServiceAreas_2&#47;ILHCPC2ServiceAreas&#47;1.png\' /> <param name=\'animate_transition\' value=\'yes\' /><param name=\'display_static_image\' value=\'yes\' /><param name=\'display_spinner\' value=\'yes\' /><param name=\'display_overlay\' value=\'yes\' /><param name=\'display_count\' value=\'yes\' /><param name=\'language\' value=\'en-US\' /></object></div>'
-            }
+            { name: 'Home-Based Medical Care', url: 'https://public.tableau.com/views/B_HCCIdashboardHBMCataglance2023_map-dataregroupedatstatelevel/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Home Health', url: 'https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HomeHealthProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Hospice', url: 'https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformance2021MedicareFFS/HospiceProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
+            { name: 'Illinois House Call Project', url: 'https://public.tableau.com/views/ILHCPC2ServiceAreas_2/ILHCPC2ServiceAreas?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' }
         ];
 
-        function loadDashboard(index) {
-            const vizContainer = document.getElementById('viz-container');
-            vizContainer.innerHTML = dashboards[index].embedCode;
-            
-            const divElement = vizContainer.getElementsByClassName('tableauPlaceholder')[0];
-            const vizElement = divElement.getElementsByTagName('object')[0];
-            
-            if (divElement.offsetWidth > 800) {
-                vizElement.style.width = '1100px';
-                vizElement.style.height = '877px';
-            } else if (divElement.offsetWidth > 500) {
-                vizElement.style.width = '1100px';
-                vizElement.style.height = '877px';
-            } else {
-                vizElement.style.width = '100%';
-                vizElement.style.height = '727px';
-            }
-            
-            const scriptElement = document.createElement('script');
-            scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
-            vizElement.parentNode.insertBefore(scriptElement, vizElement);
+        let viz;
+
+        function setActiveButton(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
         }
 
-        document.querySelectorAll('.nav-button').forEach((button, index) => {
-            button.addEventListener('click', () => {
-                loadDashboard(index);
-            });
-        });
+        function loadDashboard(index) {
+            const container = document.getElementById('viz-container');
+            container.innerHTML = '<div class="loading">Loading</div>';
 
-        document.querySelector('.nav-button.has-subnav').addEventListener('click', function() {
-            this.classList.toggle('active');
-            const subNav = document.getElementById('sub-nav-1');
-            subNav.classList.toggle('show');
+            viz = new TableauViz();
+            viz.src = dashboards[index].url;
+            viz.toolbar = 'hidden';
+            viz.hideTabs = true;
+            viz.device = 'desktop';
+
+            viz.addEventListener(TableauEventType.FirstInteractive, () => {
+                container.querySelector('.loading').remove();
+            });
+
+            container.appendChild(viz);
+
+            // Keep sub-nav open if it's a sub-nav item
+            if (index === 1 || index === 2) {
+                document.getElementById('sub-nav-1').classList.add('show');
+            }
+        }
+
+        // Initialize
+        document.querySelectorAll('.nav-button').forEach((button) => {
+            button.onclick = function() {
+                const dashboardIndex = parseInt(this.getAttribute('data-dashboard')) - 1;
+                loadDashboard(dashboardIndex);
+                setActiveButton(this);
+
+                // Toggle sub-nav for Dashboard 1, but don't close it for sub-items
+                if (dashboardIndex === 0) {
+                    document.getElementById('sub-nav-1').classList.toggle('show');
+                }
+            };
         });
 
         // Load the first dashboard by default
         loadDashboard(0);
+        setActiveButton(document.querySelector('.nav-button[data-dashboard="1"]'));
+
+        // Add event listeners for download buttons
+        document.getElementById('downloadImage').addEventListener('click', function() {
+            if (viz) {
+                viz.exportImageAsync().then((url) => {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'dashboard_image.png';
+                    link.click();
+                }).catch((error) => {
+                    console.error('Error exporting image:', error);
+                    alert('Unable to export image. Please try again later.');
+                });
+            }
+        });
+
+        document.getElementById('downloadPDF').addEventListener('click', function() {
+            if (viz) {
+                try {
+                    viz.showExportPDFDialog();
+                } catch (error) {
+                    console.error('Error exporting PDF:', error);
+                    alert('Unable to export PDF. This might be due to restrictions set by the Tableau server administrator.');
+                }
+            }
+        });
     </script>
 </body>
 </html>
