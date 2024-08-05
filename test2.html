@@ -104,6 +104,15 @@
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow: hidden;
+        }
+        #viz-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% + 27px);
+            border: none;
         }
         #tableauViz {
             width: 100%;
@@ -157,12 +166,6 @@
             font-size: 1.2em;
             margin-bottom: 10px;
         }
-
-        #viz-container iframe {
-            height: calc(100% + 27px) !important;
-            margin-top: -27px !important;
-        }
-
     </style>
 </head>
 <body>
@@ -222,6 +225,10 @@
             viz.toolbar = 'hidden';
             viz.hideTabs = true;
             viz.device = 'desktop';
+
+            // 添加以下选项来进一步控制工具栏的显示
+            viz.toolbarPosition = viz.TOOLBAR_POSITION.BOTTOM;
+            viz.toolbarDisplay = viz.TOOLBAR_DISPLAY.NONE;
 
             viz.addEventListener(TableauEventType.FirstInteractive, () => {
                 container.querySelector('.loading').remove();
