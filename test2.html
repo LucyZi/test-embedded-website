@@ -60,13 +60,19 @@
             margin-bottom: 15px;
             background-color: #60e1f6;
             border: none;
-            border-radius: 5px;
             color: white;
             cursor: pointer;
             transition: background-color 0.3s;
+            text-align: left;
         }
         .nav-button:hover, .nav-button.active {
             background-color: #05B1CC;
+        }
+        .nav-button.has-subnav::after {
+            content: '\25BC';
+            float: right;
+            font-size: 0.7em;
+            margin-top: 4px;
         }
         .sub-nav {
             margin-left: 20px;
@@ -76,6 +82,15 @@
         }
         .sub-nav.show {
             max-height: 200px;
+        }
+        .sub-nav .nav-button {
+            background: none;
+            padding-left: 0;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .sub-nav .nav-button:hover {
+            text-decoration: underline;
         }
         #viz-container {
             flex-grow: 1;
@@ -149,7 +164,7 @@
                 <div class="position">Position</div>
             </div>
             <div class="navigation-title">Navigation</div>
-            <button class="nav-button" data-dashboard="1">Home-Based Medical Care</button>
+            <button class="nav-button has-subnav" data-dashboard="1">Home-Based Medical Care</button>
             <div class="sub-nav" id="sub-nav-1">
                 <button class="nav-button" data-dashboard="2">Home Health</button>
                 <button class="nav-button" data-dashboard="3">Hospice</button>
