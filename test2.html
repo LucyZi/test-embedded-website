@@ -54,8 +54,9 @@
         }
         .nav-button {
             display: block;
-            width: 100%;
-            padding: 10px;
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            padding: 10px 20px;
             margin-top: 10px;
             margin-bottom: 15px;
             background-color: #60e1f6;
@@ -68,10 +69,11 @@
         .nav-button:hover, .nav-button.active {
             background-color: #05B1CC;
         }
-        .nav-button.has-subnav::after {
+        .nav-button.has-subnav::before {
             content: '\25BC';
-            float: right;
+            float: left;
             font-size: 0.7em;
+            margin-right: 10px;
             margin-top: 4px;
         }
         .sub-nav {
@@ -85,9 +87,10 @@
         }
         .sub-nav .nav-button {
             background: none;
-            padding-left: 0;
+            padding-left: 20px;
             margin-top: 5px;
             margin-bottom: 5px;
+            width: calc(100% + 20px);
         }
         .sub-nav .nav-button:hover {
             text-decoration: underline;
