@@ -232,6 +232,8 @@
             viz.hideTabs = true;
             viz.device = 'desktop';
 
+            viz.toolbarDisplay = viz.TOOLBAR_DISPLAY.NONE;
+
             viz.addEventListener(TableauEventType.FirstInteractive, () => {
                 container.querySelector('.loading').remove();
             });
