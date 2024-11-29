@@ -7,7 +7,10 @@
     <title>My embedded Tableau visualization</title>
     <link href="//cdn.muicss.com/mui-0.9.21/css/mui.min.css" rel="stylesheet" type="text/css" media="screen">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script type="module" src="https://Tableau-Pod.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+    <script type="module" src="https://embedding.tableauusercontent.com/tableau.embedding.3.1.0.min.js"></script>
     <style>
         html, body {
             height: 100%;
@@ -193,22 +196,13 @@
         </div>
 
         <div id="content">
-            <div id="toolbar">
-                <button id="downloadImage" style="background: none; border: none; cursor: pointer;" aria-label="Download Image">
-                    <img src="https://lucyzi.github.io/test-embedded-website/img_blue.png" alt="IMG" height="22px">
-                </button>
-                <button id="downloadPDF" style="background: none; border: none; cursor: pointer;" aria-label="Download PDF">
-                    <img src="https://lucyzi.github.io/test-embedded-website/pdf_blue.png" alt="PDF" height="22px">
-                </button>
-                <span style="color: #033954; cursor: pointer;">LOG OUT</span>
-            </div>
             <div id="viz-container"></div>
         </div>
     </div>
 
     <script type="module">
         const dashboards = [
-            { name: "Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients' },
+            { name: "Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US", url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
             { name: "Older Adults in the US and Their Characteristics, by County", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty' },
             { name: "Clinician Affiliations with HBMC Programs Medicare FFS", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms' },
             { name: "Billing Codes used in HBMC in the US, FFS Medicare", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume' },
