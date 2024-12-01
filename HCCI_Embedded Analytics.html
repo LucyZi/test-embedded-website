@@ -4,47 +4,35 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tableau Embed with JWT</title>
-    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <title>Tableau Viz Embed</title>
+    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script> 
 </head>
 <body>
-    <div id="vizContainer" style="width: 100%; height: 100vh;"></div>
+    <div id="vizContainer" style="width: 800px; height: 600px;"></div>
 
     <script type="module">
-        import { TableauViz } from "https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
+        // 替换为您的 Tableau 视图 URL
+        const tableauUrl = 'https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty';
+        // 替换为您的有效 JWT
+        const tableauToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ==';
 
-        const tableauUrl = "https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty";
-        const tableauToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ=="; // 确保替换为有效的 JWT 令牌
+        // 创建 <tableau-viz> 元素
+        const vizContainer = document.getElementById('vizContainer');
+        const tableauViz = document.createElement('tableau-viz');
 
-        // 配置 Tableau 视图的嵌入参数
-        const options = {
-            src: tableauUrl,
-            token: tableauToken,
-            width: "100%",
-            height: "100vh",
-            hideTabs: true,
-            hideToolbar: true
-        };
+        tableauViz.setAttribute('src', tableauUrl);
+        tableauViz.setAttribute('token', tableauToken);
+        tableauViz.style.width = '100%';
+        tableauViz.style.height = '100%';
 
-        // 获取容器
-        const vizContainer = document.getElementById("vizContainer");
+        // 监听加载错误事件
+        tableauViz.addEventListener(TableauEventType.VizLoadError, function(event) {
+            console.error('Error loading the viz:', event.detail);
+            // 可以在此处处理错误，例如显示错误消息
+        });
 
-        try {
-            // 创建并嵌入 Tableau 可视化
-            const viz = new TableauViz(vizContainer, options);
-
-            // 监听加载完成事件
-            viz.addEventListener("tableau-event-ready", () => {
-                console.log("Tableau visualization loaded successfully.");
-            });
-
-            // 监听加载错误事件
-            viz.addEventListener("tableau-event-load-error", (event) => {
-                console.error("Error loading Tableau visualization:", event.detail);
-            });
-        } catch (error) {
-            console.error("Error initializing Tableau visualization:", error);
-        }
+        // 将 <tableau-viz> 添加到 DOM 中
+        vizContainer.appendChild(tableauViz);
     </script>
 </body>
 </html>
