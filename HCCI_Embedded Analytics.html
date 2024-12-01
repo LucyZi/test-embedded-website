@@ -4,37 +4,47 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tableau Viz Embed with JWT</title>
+    <title>Tableau Embed with JWT</title>
     <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
 </head>
 <body>
     <div id="vizContainer" style="width: 100%; height: 100vh;"></div>
 
     <script type="module">
-        // 替换为您的 Tableau 视图 URL 和有效的 JWT
-        const tableauUrl = 'https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty';
-        const tableauToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ==';
+        import { TableauViz } from "https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js";
 
-        // 配置嵌入视图的选项
+        const tableauUrl = "https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty";
+        const tableauToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ=="; // 确保替换为有效的 JWT 令牌
+
+        // 配置 Tableau 视图的嵌入参数
         const options = {
-            width: '100%',
-            height: '100vh',
-            hideTabs: true, // 隐藏 Tab
-            hideToolbar: true, // 隐藏工具栏
-            token: tableauToken // 使用 JWT 令牌
+            src: tableauUrl,
+            token: tableauToken,
+            width: "100%",
+            height: "100vh",
+            hideTabs: true,
+            hideToolbar: true
         };
 
-        // 获取 vizContainer 元素
-        const vizContainer = document.getElementById('vizContainer');
+        // 获取容器
+        const vizContainer = document.getElementById("vizContainer");
 
-        // 创建 TableauViz 对象并嵌入视图
-        const viz = new tableau.Viz(vizContainer, tableauUrl, options);
+        try {
+            // 创建并嵌入 Tableau 可视化
+            const viz = new TableauViz(vizContainer, options);
 
-        // 监听加载错误事件
-        viz.addEventListener('tableau-event-load-error', function(event) {
-            console.error('Error loading the viz:', event.detail);
-            // 可以在此处处理错误，例如显示错误消息
-        });
+            // 监听加载完成事件
+            viz.addEventListener("tableau-event-ready", () => {
+                console.log("Tableau visualization loaded successfully.");
+            });
+
+            // 监听加载错误事件
+            viz.addEventListener("tableau-event-load-error", (event) => {
+                console.error("Error loading Tableau visualization:", event.detail);
+            });
+        } catch (error) {
+            console.error("Error initializing Tableau visualization:", error);
+        }
     </script>
 </body>
 </html>
