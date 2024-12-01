@@ -195,12 +195,14 @@
             </div>
         </div>
 
+
         <div id="content">
-            <div id="viz-container"></div>
+            <div id="viz-container">
+                <!-- Embed the Tableau view using the <tableau-viz> web component -->
+                <tableau-viz id="tableauViz" token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ==" style="width: 100%; height: 100vh;"></tableau-viz>
+            </div>
         </div>
     </div>
-
-
     <script type="module">
         const dashboards = [
             { name: "Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US", url: 'https://public.tableau.com/views/US_regrouped_layer1/HBMCataGlance_map?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link' },
@@ -209,49 +211,31 @@
             { name: "Billing Codes used in HBMC in the US, FFS Medicare", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume' },
             { name: "Market Share of HBMC by Metropolitan Area, County, and Organization", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare' }
         ];
-    
-        const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ=='; // Replace with your dynamically generated JWT
-    
-        let viz;
-        
-        // Load the dashboard view
+
+        const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ=='; // Replace with your JWT
+
+
         function loadDashboard(index) {
-            const container = document.getElementById('viz-container');
-            container.innerHTML = '<div class="loading">Loading...</div>';
-    
-            // Pass JWT to Tableau Viz instance
-            viz = new tableau.Viz(container, dashboards[index].url, {
-                hideTabs: true,
-                token: jwtToken, // Pass the valid JWT here
-                onFirstInteractive: function () {
-                    container.querySelector('.loading').remove();
-                }
-            });
+            const vizContainer = document.getElementById('tableauViz');
+            vizContainer.setAttribute('src', dashboards[index].url);
+            vizContainer.setAttribute('token', jwtToken); // 确保您已经设置了 JWT Token
         }
-    
-        // Set active class for the clicked button
-        function setActiveButton(button) {
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-        }
-    
-        // Handle sub-nav toggle
-        document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
-            button.addEventListener('click', function() {
-                const subNav = button.nextElementSibling; // Get the corresponding sub-nav
-                subNav.classList.toggle('show');
-                button.classList.toggle('active');
-            });
-        });
-    
-        // Handle dashboard selection
+
         document.querySelectorAll('.nav-button[data-dashboard]').forEach(button => {
             button.addEventListener('click', function() {
-                loadDashboard(parseInt(button.dataset.dashboard) - 1); // Load the appropriate dashboard
-                setActiveButton(button); // Mark the button as active
+                const index = parseInt(button.dataset.dashboard);
+                loadDashboard(index);
+                // 展开或隐藏子导航
+                const subNav = button.nextElementSibling;
+                if (subNav.classList.contains('show')) {
+                    subNav.classList.remove('show');
+                } else {
+                    document.querySelectorAll('.sub-nav').forEach(sn => sn.classList.remove('show'));
+                    subNav.classList.add('show');
+                }
             });
         });
-    
+
         // Initial load of the first dashboard
         loadDashboard(0);
     </script>
