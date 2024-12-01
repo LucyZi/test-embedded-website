@@ -209,15 +209,16 @@
             { name: "Billing Codes used in HBMC in the US, FFS Medicare", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume' },
             { name: "Market Share of HBMC by Metropolitan Area, County, and Organization", url: 'https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare' }
         ];
-
+    
         const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ=='; // Replace with your dynamically generated JWT
-
+    
         let viz;
         
+        // Load the dashboard view
         function loadDashboard(index) {
             const container = document.getElementById('viz-container');
             container.innerHTML = '<div class="loading">Loading...</div>';
-        
+    
             // Pass JWT to Tableau Viz instance
             viz = new tableau.Viz(container, dashboards[index].url, {
                 hideTabs: true,
@@ -227,31 +228,31 @@
                 }
             });
         }
-        
-
-
-
-
+    
+        // Set active class for the clicked button
         function setActiveButton(button) {
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
         }
-
+    
+        // Handle sub-nav toggle
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
-            button.addEventListener('click', () => {
-                const subNav = button.nextElementSibling;
+            button.addEventListener('click', function() {
+                const subNav = button.nextElementSibling; // Get the corresponding sub-nav
                 subNav.classList.toggle('show');
                 button.classList.toggle('active');
             });
         });
-
+    
+        // Handle dashboard selection
         document.querySelectorAll('.nav-button[data-dashboard]').forEach(button => {
-            button.addEventListener('click', () => {
-                loadDashboard(parseInt(button.dataset.dashboard) - 1);
-                setActiveButton(button);
+            button.addEventListener('click', function() {
+                loadDashboard(parseInt(button.dataset.dashboard) - 1); // Load the appropriate dashboard
+                setActiveButton(button); // Mark the button as active
             });
         });
-
+    
+        // Initial load of the first dashboard
         loadDashboard(0);
     </script>
 </body>
