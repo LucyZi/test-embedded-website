@@ -4,34 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tableau Viz Embed</title>
+    <title>Tableau Viz Embed with JWT</title>
     <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
 </head>
 <body>
-    <div id="vizContainer" style="width: 800px; height: 600px;"></div>
+    <div id="vizContainer" style="width: 100%; height: 100vh;"></div>
 
     <script type="module">
         // 替换为您的 Tableau 视图 URL 和有效的 JWT
         const tableauUrl = 'https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty';
         const tableauToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ==';
 
-        // 创建 <tableau-viz> 元素
-        const vizContainer = document.getElementById('vizContainer');
-        const tableauViz = document.createElement('tableau-viz');
+        // 配置嵌入视图的选项
+        const options = {
+            width: '100%',
+            height: '100vh',
+            hideTabs: true, // 隐藏 Tab
+            hideToolbar: true, // 隐藏工具栏
+            token: tableauToken // 使用 JWT 令牌
+        };
 
-        tableauViz.setAttribute('src', tableauUrl);
-        tableauViz.setAttribute('token', tableauToken);
-        tableauViz.style.width = '100%';
-        tableauViz.style.height = '100%';
+        // 获取 vizContainer 元素
+        const vizContainer = document.getElementById('vizContainer');
+
+        // 创建 TableauViz 对象并嵌入视图
+        const viz = new tableau.Viz(vizContainer, tableauUrl, options);
 
         // 监听加载错误事件
-        tableauViz.addEventListener('tableau-event-load-error', function(event) {
+        viz.addEventListener('tableau-event-load-error', function(event) {
             console.error('Error loading the viz:', event.detail);
             // 可以在此处处理错误，例如显示错误消息
         });
-
-        // 将 <tableau-viz> 添加到 DOM 中
-        vizContainer.appendChild(tableauViz);
     </script>
 </body>
 </html>
