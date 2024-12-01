@@ -11,26 +11,25 @@
     <div id="vizContainer" style="width: 800px; height: 600px;"></div>
 
     <script type="module">
-        import { TableauViz, TableauEventType } from 'https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
-
         // 替换为您的 Tableau 视图 URL 和有效的 JWT
         const tableauUrl = 'https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty';
         const tableauToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsdWN5bWFAaGNjaW5zdGl0dXRlLm9yZyIsInNjcCI6InRhYmxlYXU6dmlld3M6ZW1iZWQiLCJpc3MiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJhdWQiOiI2NjAxYjRmNC1hZjhjLTRjMmItYTU2Ny0wNTFjOGRjZGNkMjQiLCJleHAiOjE3MzU2NTI5MjEuNjE3OX0=.NjEyYmIxMTljMGU1YWNhMTE3ZThkNmRlMTZlY2EwMzdhYTMwMzBhNzIzOGMzMTJhZGIzMmQ5YTdkYzUxODc1ZQ==';
 
-        // 创建 <tableau-viz> 元素
+        // 获取容器元素
         const vizContainer = document.getElementById('vizContainer');
-        const tableauViz = new TableauViz();
 
+        // 创建 TableauViz 实例
+        const tableauViz = new TableauViz();
         tableauViz.src = tableauUrl;
         tableauViz.token = tableauToken;
 
         // 监听加载错误事件
-        tableauViz.addEventListener(TableauEventType.VizLoadError, function(event) {
+        tableauViz.addEventListener('tableau-event-load-error', function(event) {
             console.error('Error loading the viz:', event.detail);
             // 可以在此处处理错误，例如显示错误消息
         });
 
-        // 将 <tableau-viz> 添加到 DOM 中
+        // 将 TableauViz 实例添加到 DOM 中
         vizContainer.appendChild(tableauViz);
     </script>
 </body>
