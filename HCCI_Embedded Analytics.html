@@ -6,19 +6,20 @@
     <title>Basic Embedding via Web Component</title>
 
     <!-- Importing the Embedding API Library. -->
-    <!-- Learn more here:
-        https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_get.html -->
-    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <!-- Learn more here: https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_get.html -->
+    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script> 
 </head>
 
 <body>
     <!-- Defining the div container for the visualization. -->
     <div style="width:800px; height:700px;">
-
-        <!-- Initialization of the Tableau visualization via web component. See more properties here:
-        https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_configure.html -->
-        <tableau-viz id="tableauViz" src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"
-            toolbar="bottom" hide-tabs>
+        <!-- Initialization of the Tableau visualization via web component. -->
+        <!-- Replace 'YOUR_JWT_HERE' with the actual JWT -->
+        <tableau-viz id="tableauViz"
+            src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"
+            toolbar="bottom" 
+            hide-tabs
+            token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY3AiOiJ0YWJsZWF1OnZpZXdzOmVtYmVkIiwiaXNzIjoiNjYwMWI0ZjQtYWY4Yy00YzJiLWE1NjctMDUxYzhkY2RjZDI0IiwiYXVkIjoiNjYwMWI0ZjQtYWY4Yy00YzJiLWE1NjctMDUxYzhkY2RjZDI0IiwiZXhwIjoxNzM1NzI0MzkwLjY0ODh9.KtZzWtzaJMBm31HgXl4s/jPx1yXpeuIRW6EhJX9qDUs=">
         </tableau-viz>
     </div>
 </body>
