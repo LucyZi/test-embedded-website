@@ -240,31 +240,32 @@
         <div id="content">
             <!-- Embedding Tableau Visualizations -->
             <div class="tableau-viz-container" id="viz1">
-                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients" toolbar="bottom"></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz2">
-                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom"></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz3">
-                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom"></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz4">
-                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom"></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz5">
-                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom"></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
         </div>
     </div>
 
     <script type="module">
         // Function to switch between visualizations
+        // 延迟加载的Viz
         function loadViz(vizId) {
-            // Hide all visualizations and loading indicators
+            // 隐藏所有viz和加载指示器
             document.querySelectorAll('.tableau-viz-container').forEach(function(viz) {
                 viz.classList.remove('active');
             });
@@ -272,29 +273,70 @@
                 loading.style.display = 'none';
             });
 
-            // Show loading indicator and the selected visualization
+            // 显示加载指示器并显示选定的可视化
             const vizToShow = document.getElementById('viz' + vizId);
             const loading = document.getElementById('loading' + vizId);
             if (vizToShow) {
                 vizToShow.classList.add('active');
-                loading.style.display = 'block'; // Show loading message
+                loading.style.display = 'block'; // 显示加载消息
             }
 
-            // Load the tableau viz component asynchronously
+            // 如果该viz尚未加载，则延迟加载
             const tableauViz = vizToShow.querySelector('tableau-viz');
+            if (!tableauViz.src) {
+                tableauViz.src = tableauViz.getAttribute('data-src'); // 延迟加载
+            }
+
+            // 监听加载完成事件
             tableauViz.addEventListener('load', function() {
-                loading.style.display = 'none'; // Hide loading message when the viz is loaded
+                loading.style.display = 'none'; // 加载完成后隐藏加载消息
             });
         }
 
+        // 初始化加载第一个Viz
+        loadViz(1);
 
-        // Set up event listeners for the navigation buttons
+        // 页面加载时预加载其他viz
+        function preloadViz(vizId) {
+            const vizContainer = document.getElementById('viz' + vizId);
+            const tableauViz = vizContainer.querySelector('tableau-viz');
+            tableauViz.setAttribute('data-src', tableauViz.src);  // 设置预加载URL
+        }
+
+        // 页面加载时预加载所有viz
+        window.onload = function() {
+            for (let i = 2; i <= 5; i++) {  // 假设有5个viz
+                preloadViz(i);
+            }
+        };
+
+        // 使用IntersectionObserver来懒加载可视化
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 如果元素进入视口时，加载viz
+                    const vizElement = entry.target;
+                    const tableauViz = vizElement.querySelector('tableau-viz');
+                    if (tableauViz && !tableauViz.getAttribute('src')) {
+                        tableauViz.src = tableauViz.getAttribute('data-src'); // 进入视口时才加载
+                    }
+                    observer.unobserve(vizElement); // 加载完成后停止观察
+                }
+            });
+        }, { threshold: 0.5 }); // 50% 可见时触发
+
+        // 观察每个 viz
+        document.querySelectorAll('.tableau-viz-container').forEach(viz => {
+            observer.observe(viz);
+        });
+
+        // 设置导航按钮点击事件
         document.querySelectorAll('.nav-button').forEach(function(button) {
             button.addEventListener('click', function() {
                 const vizId = button.getAttribute('data-viz');
                 loadViz(vizId);
 
-                // Set active class for the clicked button
+                // 设置点击按钮为激活状态
                 document.querySelectorAll('.nav-button').forEach(function(btn) {
                     btn.classList.remove('active');
                 });
@@ -302,17 +344,18 @@
             });
         });
 
-        // Handle sub-nav toggle
+        // 设置子导航按钮展开/收起功能
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
             button.addEventListener('click', function() {
-                const subNav = button.nextElementSibling; // Get the corresponding sub-nav
+                const subNav = button.nextElementSibling; // 获取对应的子导航
                 subNav.classList.toggle('show');
                 button.classList.toggle('active');
             });
         });
 
-        // Default to the first visualization
+        // 默认加载第一个可视化
         loadViz(1);
+
     </script>
 
 </body>
