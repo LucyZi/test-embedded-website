@@ -120,19 +120,19 @@
         #tableauViz {
             width: 100%;
             height: 100%;
-            transform: scale(0.7); /* 缩小为原来的90% */
-            transform-origin: center center; /* 缩放的中心为图表的中心 */
             justify-content: center;
             align-items: center;
+            overflow: hidden; /* 防止显示滚动条 */
         }
 
         .tableau-viz-container {
-            flex-grow: 1;  /* 让容器填满剩余空间 */
+            flex-grow: 1;
             display: none;
-            width: 100%;  /* 宽度为父容器的100% */
-            height: 100%; /* 高度为父容器的100% */
+            width: 100%; 
+            height: 100%;
             justify-content: center;
             align-items: center;
+            overflow: hidden; /* 防止显示滚动条 */
         }
         
         .tableau-viz-container.active {
