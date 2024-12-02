@@ -264,17 +264,29 @@
     <script type="module">
         // Function to switch between visualizations
         function loadViz(vizId) {
-            // Hide all visualizations
+            // Hide all visualizations and loading indicators
             document.querySelectorAll('.tableau-viz-container').forEach(function(viz) {
                 viz.classList.remove('active');
             });
+            document.querySelectorAll('.loading').forEach(function(loading) {
+                loading.style.display = 'none';
+            });
 
-            // Show the selected visualization
+            // Show loading indicator and the selected visualization
             const vizToShow = document.getElementById('viz' + vizId);
+            const loading = document.getElementById('loading' + vizId);
             if (vizToShow) {
                 vizToShow.classList.add('active');
+                loading.style.display = 'block'; // Show loading message
             }
+
+            // Load the tableau viz component asynchronously
+            const tableauViz = vizToShow.querySelector('tableau-viz');
+            tableauViz.addEventListener('load', function() {
+                loading.style.display = 'none'; // Hide loading message when the viz is loaded
+            });
         }
+
 
         // Set up event listeners for the navigation buttons
         document.querySelectorAll('.nav-button').forEach(function(button) {
