@@ -7,20 +7,23 @@
 
     <!-- Importing the Embedding API Library -->
     <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
-
     <style>
         html, body {
+            height: 100%;
+            width: 100%;
             margin: 0;
             padding: 0;
-            height: 100%;
             font-family: Arial, sans-serif;
-        }
-
-        #wrapper {
             display: flex;
-            height: 100vh;
+            flex-direction: column;
+            background-color: #ffffff;
         }
-
+        #wrapper {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1);
+        }
         #sidebar {
             width: 300px;
             background-color: #033954;
@@ -29,11 +32,117 @@
             display: flex;
             flex-direction: column;
         }
-
         #logo-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
+        }
+        #content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #toolbar {
+            background-color: #d9f5fc;
+            height: 40px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px;
+        }
+        .nav-button {
+            display: block;
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            padding: 10px 60px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            background-color: #60e1f6;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .nav-button:hover, .nav-button.active {
+            background-color: #05B1CC;
+        }
+        .nav-button.has-subnav {
+            position: relative;
+        }
+        .nav-button.has-subnav::before {
+            content: '\25BC';
+            position: absolute;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7em;
+        }
+        .sub-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .sub-nav.show {
+            max-height: 200px;
+        }
+        .sub-nav .nav-button {
+            background: none;
+            padding: 15px 87px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        .sub-nav .nav-button:hover {
+            text-decoration: underline;
+        }
+
+        #viz-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        #tableauViz {
+            width: 100%;
+            height: 100%;
+        }
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .loading:after {
+            content: '.';
+            animation: dots 1s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% {
+                color: rgba(0,0,0,0);
+                text-shadow:
+                    .25em 0 0 rgba(0,0,0,0),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            40% {
+                color: #333;
+                text-shadow:
+                    .25em 0 0 rgba(0,0,0,0),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            60% {
+                text-shadow:
+                    .25em 0 0 #333,
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            80%, 100% {
+                text-shadow:
+                    .25em 0 0 #333,
+                    .5em 0 0 #333;
+            }
         }
 
         .brand-title {
@@ -48,57 +157,6 @@
             margin-bottom: 30px;
         }
 
-        .nav-button {
-            display: block;
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #60e1f6;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            position: relative;
-        }
-
-        .nav-button:hover, .nav-button.active {
-            background-color: #05B1CC;
-        }
-
-        .nav-button.has-subnav::before {
-            content: '\25BC';
-            position: absolute;
-            left: 50px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.7em;
-        }
-
-        .sub-nav {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .sub-nav.show {
-            max-height: 200px;
-        }
-
-        .sub-nav .nav-button {
-            background: none;
-            padding: 10px 30px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-            text-align: left;
-        }
-
-        #content {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
         .tableau-viz-container {
             width: 800px;
             height: 700px;
@@ -108,7 +166,9 @@
         .tableau-viz-container.active {
             display: block;
         }
+
     </style>
+
 </head>
 
 <body>
