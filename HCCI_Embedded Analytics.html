@@ -143,6 +143,8 @@
             align-items: center;
         }
 
+
+
         .loading {
             position: absolute;
             top: 50%;
@@ -150,10 +152,12 @@
             transform: translate(-50%, -50%);
             text-align: center;
         }
+
         .loading:after {
-            content: '.';
+            content: 'Loading...';
             animation: dots 1s steps(5, end) infinite;
         }
+
         @keyframes dots {
             0%, 20% {
                 color: rgba(0,0,0,0);
@@ -256,47 +260,61 @@
         </div>
     </div>
 
-    <script type="module">
-        // Function to switch between visualizations
-        function loadViz(vizId) {
-            // Hide all visualizations
-            document.querySelectorAll('.tableau-viz-container').forEach(function(viz) {
-                viz.classList.remove('active');
-            });
+ 
 
-            // Show the selected visualization
-            const vizToShow = document.getElementById('viz' + vizId);
-            if (vizToShow) {
-                vizToShow.classList.add('active');
-            }
+
+<script type="module">
+    // Function to load a specific visualization
+    function loadViz(vizId) {
+        // Hide all visualizations and loading indicators
+        document.querySelectorAll('.tableau-viz-container').forEach(function(viz) {
+            viz.classList.remove('active');
+        });
+        document.querySelectorAll('.loading').forEach(function(loading) {
+            loading.style.display = 'none';
+        });
+
+        // Show loading indicator and the selected visualization
+        const vizToShow = document.getElementById('viz' + vizId);
+        const loading = document.getElementById('loading' + vizId);
+        if (vizToShow) {
+            vizToShow.classList.add('active');
+            loading.style.display = 'block'; // Show loading message
         }
 
-        // Set up event listeners for the navigation buttons
-        document.querySelectorAll('.nav-button').forEach(function(button) {
-            button.addEventListener('click', function() {
-                const vizId = button.getAttribute('data-viz');
-                loadViz(vizId);
-
-                // Set active class for the clicked button
-                document.querySelectorAll('.nav-button').forEach(function(btn) {
-                    btn.classList.remove('active');
-                });
-                button.classList.add('active');
-            });
+        // Load the tableau viz component asynchronously
+        const tableauViz = vizToShow.querySelector('tableau-viz');
+        tableauViz.addEventListener('load', function() {
+            loading.style.display = 'none'; // Hide loading message when the viz is loaded
         });
+    }
 
-        // Handle sub-nav toggle
-        document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
-            button.addEventListener('click', function() {
-                const subNav = button.nextElementSibling; // Get the corresponding sub-nav
-                subNav.classList.toggle('show');
-                button.classList.toggle('active');
+    // Set up event listeners for the navigation buttons
+    document.querySelectorAll('.nav-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const vizId = button.getAttribute('data-viz');
+            loadViz(vizId);
+
+            // Set active class for the clicked button
+            document.querySelectorAll('.nav-button').forEach(function(btn) {
+                btn.classList.remove('active');
             });
+            button.classList.add('active');
         });
+    });
 
-        // Default to the first visualization
-        loadViz(1);
-    </script>
+    // Handle sub-nav toggle
+    document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
+        button.addEventListener('click', function() {
+            const subNav = button.nextElementSibling; // Get the corresponding sub-nav
+            subNav.classList.toggle('show');
+            button.classList.toggle('active');
+        });
+    });
+
+    // Default to the first visualization
+    loadViz(1);
+</script>
 
 </body>
 
