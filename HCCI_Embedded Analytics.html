@@ -3,29 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Basic Embedding via JS Initialization</title>
+    <title>Basic Embedding via Web Component</title>
 
-    <!-- Link to the Embedding API library from your specific Tableau Cloud Pod -->
+    <!-- Importing the Embedding API Library. -->
+    <!-- Learn more here:
+        https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_get.html -->
     <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
 </head>
 
 <body>
+    <!-- Defining the div container for the visualization. -->
     <div style="width:800px; height:700px;">
-        <!-- Placeholder for the Tableau visualization. -->
-        <div id="tableauViz"></div>
+
+        <!-- Initialization of the Tableau visualization via web component. See more properties here:
+        https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_configure.html -->
+        <tableau-viz id="tableauViz" src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"
+            toolbar="bottom" hide-tabs>
+        </tableau-viz>
     </div>
-
-    <script type="module">
-        // Since the library is loaded via script tag, we do not need to import TableauViz
-        // It should be available in the global scope
-
-        // Initialization of the Tableau visualization via JavaScript.
-        const container = document.getElementById("tableauViz");
-        const vizUrl = "https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"; // Replace with your actual view URL
-        const viz = new TableauViz(container, vizUrl, {
-            toolbar: "hidden" // Hide the toolbar
-        });
-    </script>
 </body>
 
 </html>
