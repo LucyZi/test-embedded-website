@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tableau Embed with JWT</title>
-    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script> 
-</head>
-<body>
-    <div id="vizContainer" style="width: 100%; height: 100vh;"></div>
 
-    <tableau-viz id="tableauViz" src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY3AiOiJ0YWJsZWF1OnZpZXdzOmVtYmVkIiwiaXNzIjoiNjYwMWI0ZjQtYWY4Yy00YzJiLWE1NjctMDUxYzhkY2RjZDI0IiwiYXVkIjoiNjYwMWI0ZjQtYWY4Yy00YzJiLWE1NjctMDUxYzhkY2RjZDI0IiwiZXhwIjoxNzM1Njk4OTU2LjMwNDN9.MGExMWFlNDY0NDMwM2U1NTI0MTBjMzgyOTRlODg2ZTljNzRkNzQ4ZGUwM2Y4YjAxZGRkOWFiYmY5ZTExNzQzNg==" style="width: 100%; height: 100vh;"></tableau-viz>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Embedding via JS Initialization</title>
+
+    <!-- Link to the Embedding API library from your specific Tableau Cloud Pod -->
+    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+</head>
+
+<body>
+    <div style="width:800px; height:700px;">
+        <!-- Placeholder for the Tableau visualization. -->
+        <div id="tableauViz"></div>
+    </div>
 
     <script type="module">
-        // 监听加载完成事件
-        const viz = document.getElementById('tableauViz');
-        viz.addEventListener('tableau-event-ready', () => {
-            console.log("Tableau visualization loaded successfully.");
-        });
+        // Since the library is loaded via script tag, we do not need to import TableauViz
+        // It should be available in the global scope
 
-        // 监听加载错误事件
-        viz.addEventListener('tableau-event-load-error', (event) => {
-            console.error("Error loading Tableau visualization:", event.detail);
+        // Initialization of the Tableau visualization via JavaScript.
+        const container = document.getElementById("tableauViz");
+        const vizUrl = "https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"; // Replace with your actual view URL
+        const viz = new TableauViz(container, vizUrl, {
+            toolbar: "hidden" // Hide the toolbar
         });
     </script>
 </body>
+
 </html>
