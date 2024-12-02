@@ -5,26 +5,213 @@
     <meta charset="UTF-8">
     <title>Basic Embedding via Web Component</title>
 
-    <!-- Importing the Embedding API Library. -->
-    <!-- Learn more here:
-        https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_get.html -->
+    <!-- Importing the Embedding API Library -->
     <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        #wrapper {
+            display: flex;
+            height: 100vh;
+        }
+
+        #sidebar {
+            width: 300px;
+            background-color: #033954;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .brand-title {
+            text-align: center;
+            font-size: 1.4em;
+            margin-bottom: 16px;
+        }
+
+        .navigation-title {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #60e1f6;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .nav-button:hover, .nav-button.active {
+            background-color: #05B1CC;
+        }
+
+        .nav-button.has-subnav::before {
+            content: '\25BC';
+            position: absolute;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7em;
+        }
+
+        .sub-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .sub-nav.show {
+            max-height: 200px;
+        }
+
+        .sub-nav .nav-button {
+            background: none;
+            padding: 10px 30px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        #content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tableau-viz-container {
+            width: 800px;
+            height: 700px;
+            display: none;
+        }
+
+        .tableau-viz-container.active {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Defining the div container for the visualization. -->
-    <div style="width:1320px; height:700px;">
+    <div id="wrapper">
+        <div id="sidebar">
+            <div id="logo-container">
+                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
+            </div>
+            <div class="brand-title">Confer Analytics®</div>
+            <div class="navigation-title">Home-Based Medical Care</div>
 
-        <!-- Initialization of the Tableau visualization via web component. See more properties here:
-        https://help.tableau.com/current/api/embedding_api/en-us/docs/embedding_api_configure.html -->
-        <tableau-viz id="tableauViz"
-            src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"
-            token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY3AiOiJ0YWJsZWF1OnZpZXdzOmVtYmVkIiwiaXNzIjoiNjYwMWI0ZjQtYWY4Yy00YzJiLWE1NjctMDUxYzhkY2RjZDI0IiwiYXVkIjoiNjYwMWI0ZjQtYWY4Yy00YzJiLWE1NjctMDUxYzhkY2RjZDI0IiwiZXhwIjoxNzM1NzI0MzkwLjY0ODh9.KtZzWtzaJMBm31HgXl4s/jPx1yXpeuIRW6EhJX9qDUs="
-            onVizLoadError="handleLoadError"
-            toolbar="bottom" 
-            hide-tabs>
-        </tableau-viz>
+            <!-- Main Navigation: Demand -->
+            <button class="nav-button has-subnav" id="demandNav">Demand</button>
+            <div class="sub-nav" id="sub-nav-1">
+                <button class="nav-button" data-viz="1">Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US</button>
+                <button class="nav-button" data-viz="2">Older Adults in the US and Their Characteristics, by County</button>
+            </div>
+
+            <!-- Main Navigation: Supply and Performance -->
+            <button class="nav-button has-subnav" id="supplyNav">Supply and Performance</button>
+            <div class="sub-nav" id="sub-nav-2">
+                <button class="nav-button" data-viz="3">Clinician Affiliations with HBMC Programs Medicare FFS</button>
+            </div>
+
+            <!-- Main Navigation: Partners, Referrals, and Billing -->
+            <button class="nav-button has-subnav" id="partnersNav">Partners, Referrals, and Billing</button>
+            <div class="sub-nav" id="sub-nav-3">
+                <button class="nav-button" data-viz="4">Billing Codes used in HBMC in the US, FFS Medicare</button>
+            </div>
+
+            <!-- Main Navigation: Medicare Advantage -->
+            <button class="nav-button has-subnav" id="medicareNav">Medicare Advantage</button>
+            <div class="sub-nav" id="sub-nav-4">
+                <button class="nav-button" data-viz="5">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
+            </div>
+        </div>
+
+        <div id="content">
+            <!-- Embedding Tableau Visualizations -->
+            <div class="tableau-viz-container" id="viz1">
+                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients" toolbar="bottom" hide-tabs></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz2">
+                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" hide-tabs></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz3">
+                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" hide-tabs></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz4">
+                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" hide-tabs></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz5">
+                <tableau-viz src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" hide-tabs></tableau-viz>
+            </div>
+        </div>
     </div>
+
+    <script type="module">
+        // Function to switch between visualizations
+        function loadViz(vizId) {
+            // Hide all visualizations
+            document.querySelectorAll('.tableau-viz-container').forEach(function(viz) {
+                viz.classList.remove('active');
+            });
+
+            // Show the selected visualization
+            const vizToShow = document.getElementById('viz' + vizId);
+            if (vizToShow) {
+                vizToShow.classList.add('active');
+            }
+        }
+
+        // Set up event listeners for the navigation buttons
+        document.querySelectorAll('.nav-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const vizId = button.getAttribute('data-viz');
+                loadViz(vizId);
+
+                // Set active class for the clicked button
+                document.querySelectorAll('.nav-button').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+            });
+        });
+
+        // Handle sub-nav toggle
+        document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
+            button.addEventListener('click', function() {
+                const subNav = button.nextElementSibling; // Get the corresponding sub-nav
+                subNav.classList.toggle('show');
+                button.classList.toggle('active');
+            });
+        });
+
+        // Default to the first visualization
+        loadViz(1);
+    </script>
+
 </body>
 
 </html>
