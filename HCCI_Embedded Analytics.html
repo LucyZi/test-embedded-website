@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <title>Basic Embedding via Web Component</title>
@@ -82,7 +82,6 @@
             transform: translateY(-50%);
             font-size: 0.7em;
         }
-
         .sub-nav {
             max-height: 0;
             overflow: hidden;
@@ -124,7 +123,6 @@
             text-align: left; 
         }
 
-
         .sub-nav .nav-button:hover {
             text-decoration: underline;
         }
@@ -135,7 +133,7 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow: hidden; 
+            overflow: hidden; /* 防止显示滚动条 */
 
         }
         #tableauViz {
@@ -143,7 +141,7 @@
             height: 100%;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* 防止显示滚动条 */
         }
 
         .tableau-viz-container {
@@ -153,7 +151,7 @@
             height: 100%;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* 防止显示滚动条 */
         }
         
         .tableau-viz-container.active {
@@ -227,7 +225,7 @@
     <div id="wrapper">
         <div id="sidebar">
             <div id="logo-container">
-                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png"   alt="Logo" style="width: 45%;">
+                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
             </div>
             <div class="brand-title">Confer Analytics®</div>
             <div class="navigation-title">Home-Based Medical Care</div>
@@ -275,82 +273,80 @@
         <div id="content">
             <!-- Embedding Tableau Visualizations -->
             <div class="tableau-viz-container" id="viz1">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz2">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz3">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz4">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz5">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz6">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz7">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz8">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz9">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz10">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz11">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz12">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz13">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz14">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz15">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz16">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz17">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz18">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz19">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare"   toolbar="bottom" ></tableau-viz>
+                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
-
-
         </div>
     </div>
 
@@ -467,3 +463,5 @@
 </body>
 
 </html>
+
+
