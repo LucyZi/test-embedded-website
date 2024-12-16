@@ -442,10 +442,11 @@
                 button.classList.toggle('active', isExpanded);
         
                 openMenusCount += isExpanded ? 1 : -1;
-        
+
                 document.querySelectorAll('.sub-nav.show').forEach(activeSubNav => {
-                    activeSubNav.style.overflowY = openMenusCount >= 2 ? 'auto' : 'hidden';
+                    activeSubNav.style.overflowY = openMenusCount >= 2 ? 'scroll' : 'hidden';
                 });
+                
             });
         });
         
