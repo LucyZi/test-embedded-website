@@ -442,13 +442,20 @@
                 button.classList.toggle('active', isExpanded);
         
                 openMenusCount += isExpanded ? 1 : -1;
-
+        
+                // 遍历所有的 .sub-nav.show 元素
                 document.querySelectorAll('.sub-nav.show').forEach(activeSubNav => {
-                    activeSubNav.style.overflowY = openMenusCount >= 2 ? 'scroll' : 'hidden';
+                    if (openMenusCount >= 2) {
+                        activeSubNav.style.overflowY = 'scroll'; // 显示滚动条
+                        activeSubNav.style.maxHeight = '300px'; // 设置最大高度，防止超出屏幕
+                    } else {
+                        activeSubNav.style.overflowY = 'hidden'; // 隐藏滚动条
+                    }
                 });
-                
             });
         });
+
+
         
 
     </script>
