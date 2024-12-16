@@ -441,16 +441,14 @@
             button.addEventListener('click', function() {
                 const subNav = button.nextElementSibling;
 
+                // Toggle the visibility of the sub-navigation
                 subNav.classList.toggle('show');
+
+                // Toggle the active state of the main navigation button
+                button.classList.toggle('active');
             });
         });
 
-
-        window.onload = function() {
-            document.querySelectorAll('.sub-nav').forEach(nav => {
-                nav.classList.remove('show');
-            });
-        };
 
 
     </script>
