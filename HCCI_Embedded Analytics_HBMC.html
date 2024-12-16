@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Basic Embedding via Web Component</title>
 
     <!-- Importing the Embedding API Library -->
@@ -25,18 +27,31 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1);
         }
         #sidebar {
-            width: 370px;
+            width: 380px;
+            min-width: 380px;
+            max-width: 380px;
             background-color: #033954;
             color: white;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            position: relative;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
+
+
         #logo-container {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin: 0 auto;
         }
+
         #content {
             flex-grow: 1;
             display: flex;
@@ -67,17 +82,20 @@
             cursor: pointer;
             transition: background-color 0.3s;
             text-align: left;
+            word-wrap: break-word;
+            white-space: normal;
         }
         .nav-button:hover, .nav-button.active {
             background-color: #05B1CC;
         }
         .nav-button.has-subnav {
             position: relative;
+            font-size: 16px;
         }
         .nav-button.has-subnav::before {
             content: '\25BC';
             position: absolute;
-            left: 50px;
+            left: 45px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 0.7em;
@@ -119,18 +137,25 @@
 
         .sub-nav > .nav-button {
             background: none;
-            padding-left: 30px; 
-            padding-right: 10px;
+            padding-left: 80px; 
+            padding-right: 20px;
             padding-top: 7px;
             padding-bottom: 7px;
             margin-top: 2px;
             margin-bottom: 2px;
             text-align: left; 
+            font-size: 13.33px;
         }
 
         .sub-nav .nav-button:hover {
             text-decoration: underline;
         }
+
+        .sub-nav .nav-button.active {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        
 
         #viz-container {
             flex-grow: 1;
@@ -210,7 +235,8 @@
         .brand-title {
             text-align: center;
             font-size: 1.4em;
-            margin-bottom: 16px;
+            margin-top: 13px;
+            margin-bottom: 13px;
         }
 
         .navigation-title {
@@ -229,9 +255,6 @@
 <body>
     <div id="wrapper">
         <div id="sidebar">
-            <div id="logo-container">
-                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
-            </div>
             <div class="brand-title">Confer Analytics®</div>
             <div class="navigation-title">Home-Based Medical Care</div>
 
@@ -272,6 +295,10 @@
                 <button class="nav-button" data-viz="17">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
                 <button class="nav-button" data-viz="18">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
                 <button class="nav-button" data-viz="19">Medicare Advantage Penetration by County and Market Share for Companies</button>
+            </div>
+
+            <div id="logo-container">
+                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
             </div>
         </div>
 
@@ -353,6 +380,7 @@
                 <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
             </div>
         </div>
+
     </div>
 
     <script>
@@ -435,6 +463,19 @@
                 button.classList.add('active');
             });
         });
+
+        // Handle navigation button click event for sub-navigation
+        document.querySelectorAll('.sub-nav .nav-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.sub-nav .nav-button').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+
+                button.classList.add('active');
+            });
+        });
+
+
     
         // Handle sub-navigation toggle (expand/collapse)
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
