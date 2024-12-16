@@ -82,11 +82,14 @@
             transform: translateY(-50%);
             font-size: 0.7em;
         }
+
+
         .sub-nav {
-            max-height: 0;
-            overflow: hidden;
+            max-height: 300px;
+            overflow-y: auto;
             transition: max-height 0.3s ease-out;
         }
+        
         
         .sub-nav.show {
             max-height: 600px;
@@ -432,31 +435,22 @@
         });
     
         // Handle sub-navigation toggle (expand/collapse)
-        let openMenusCount = 0;
-
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
             button.addEventListener('click', function() {
                 const subNav = button.nextElementSibling;
-                const isExpanded = subNav.classList.toggle('show');
-                
-                button.classList.toggle('active', isExpanded);
-        
-                openMenusCount += isExpanded ? 1 : -1;
-        
-                // 遍历所有的 .sub-nav.show 元素
-                document.querySelectorAll('.sub-nav.show').forEach(activeSubNav => {
-                    if (openMenusCount >= 2) {
-                        activeSubNav.style.overflowY = 'scroll'; // 显示滚动条
-                        activeSubNav.style.maxHeight = '300px'; // 设置最大高度，防止超出屏幕
-                    } else {
-                        activeSubNav.style.overflowY = 'hidden'; // 隐藏滚动条
+                subNav.classList.toggle('show');
+
+                // If the submenu is open, set the overflow
+                if (subNav.classList.contains('show')) {
+                    // Check if the submenu exceeds 300px in height
+                    if (subNav.scrollHeight > 300) {
+                        subNav.style.overflowY = 'auto'; // Enable scroll
                     }
-                });
+                } else {
+                    subNav.style.overflowY = 'hidden'; // Hide scroll when closed
+                }
             });
         });
-
-
-        
 
     </script>
     
