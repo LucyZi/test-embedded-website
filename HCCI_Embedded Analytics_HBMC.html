@@ -84,17 +84,19 @@
         }
 
 
-
-
         .sub-nav {
-            max-height: 0;            /* Start with zero height */
+            height: 0;                /* Start with zero height */
             overflow-y: hidden;       /* Hide overflow initially */
-            transition: max-height 0.3s ease-out, overflow-y 0.3s ease-out;
+            transition: height 0.3s ease-out, overflow-y 0.3s ease-out; /* Animate height */
         }
+        
         .sub-nav.show {
-            max-height: 300px;        /* Expand the submenu when it's shown */
+            height: auto;             /* Allow the height to expand when opened */
             overflow-y: auto;         /* Enable scrolling if content exceeds max-height */
+            max-height: 300px;        /* Prevent expanding beyond 300px */
         }
+        
+
         
 
 
@@ -443,15 +445,21 @@
 
                 // If the submenu is opened, check its height and adjust overflow
                 if (subNav.classList.contains('show')) {
-                    // If the content exceeds 300px, show the scrollbar
+                    // Check if the content exceeds 300px and apply scrolling
                     if (subNav.scrollHeight > 300) {
-                        subNav.style.overflowY = 'auto'; // Enable scroll
+                        subNav.style.height = '300px';  // Set fixed height for scrolling
+                        subNav.style.overflowY = 'auto';  // Enable scroll
+                    } else {
+                        subNav.style.height = 'auto';  // Let it expand naturally
+                        subNav.style.overflowY = 'visible';  // No scroll needed
                     }
                 } else {
-                    subNav.style.overflowY = 'hidden'; // Hide scroll when closed
+                    subNav.style.height = '0';        // Collapse the submenu
+                    subNav.style.overflowY = 'hidden';  // Hide scroll when collapsed
                 }
             });
         });
+
 
 
     </script>
