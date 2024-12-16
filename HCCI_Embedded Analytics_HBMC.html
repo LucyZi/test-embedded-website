@@ -85,17 +85,16 @@
 
 
         .sub-nav {
-            height: 0;                /* Start with zero height */
-            overflow-y: hidden;       /* Hide overflow initially */
-            transition: height 0.3s ease-out, overflow-y 0.3s ease-out; /* Animate height */
+            max-height: 300px;
+            overflow-y: auto;
+            transition: max-height 0.3s ease-out;
         }
+        
         
         .sub-nav.show {
-            height: auto;             /* Allow the height to expand when opened */
-            overflow-y: auto;         /* Enable scrolling if content exceeds max-height */
-            max-height: 300px;        /* Prevent expanding beyond 300px */
+            max-height: 600px;
+            overflow-y: hidden;
         }
-        
 
         
 
@@ -438,30 +437,21 @@
         });
     
         // Handle sub-navigation toggle (expand/collapse)
+        let openMenusCount = 0;
+
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
             button.addEventListener('click', function() {
                 const subNav = button.nextElementSibling;
                 subNav.classList.toggle('show');
-
-                // If the submenu is opened, check its height and adjust overflow
+        
                 if (subNav.classList.contains('show')) {
-                    // Check if the content exceeds 300px and apply scrolling
-                    if (subNav.scrollHeight > 300) {
-                        subNav.style.height = '300px';  // Set fixed height for scrolling
-                        subNav.style.overflowY = 'auto';  // Enable scroll
-                    } else {
-                        subNav.style.height = 'auto';  // Let it expand naturally
-                        subNav.style.overflowY = 'visible';  // No scroll needed
-                    }
+                    openMenusCount++;
                 } else {
-                    subNav.style.height = '0';        // Collapse the submenu
-                    subNav.style.overflowY = 'hidden';  // Hide scroll when collapsed
+                    openMenusCount--;
                 }
+        
             });
         });
-
-
-
     </script>
     
 
