@@ -85,41 +85,57 @@
 
 
 
+        /* 隐藏原生滚动条 */
         .sub-nav {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            scrollbar-width: thin; /* Firefox 滚动条宽度 */
-            scrollbar-color: white transparent; /* Firefox 滚动条颜色 */
+            max-height: 300px;
+            overflow-y: scroll;
+            scrollbar-width: none; /* Firefox 隐藏滚动条 */
+            -ms-overflow-style: none; /* IE/Edge 隐藏滚动条 */
         }
-        
+
+
+        /* 显示自定义滚动条时的样式 */
         .sub-nav.show {
             max-height: 300px;
             overflow-y: auto; /* 自动滚动 */
+            padding-right: 15px; /* 为自定义滚动条留出空间 */
+            box-sizing: content-box; /* 确保 padding 不影响内容宽度 */
         }
-        
+
+
         .sub-nav::-webkit-scrollbar {
+            display: none; /* Chrome/Edge 隐藏滚动条 */
+        }
+
+        /* 自定义滚动条 */
+        .sub-nav-wrapper {
+            position: relative;
+            height: 100%;
+            overflow: hidden; /* 防止内容溢出 */
+        }
+
+        .sub-nav-wrapper .sub-nav {
+            position: relative;
+            padding-right: 15px; /* 为伪造的滚动条留出空间 */
+            box-sizing: content-box;
+        }
+
+        .sub-nav-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
             width: 6px; /* 滚动条宽度 */
-            height: 6px; /* 横向滚动条高度（如果有） */
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3); /* 滚动条背景色 */
+            border-radius: 3px;
+            pointer-events: none; /* 防止滚动条干扰点击事件 */
         }
-        
-        .sub-nav::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1); /* 滚动条轨道背景 */
+
+        .sub-nav-wrapper .sub-nav::-webkit-scrollbar-thumb {
+            background-color: transparent; /* 确保隐藏原生滚动条 */
         }
-        
-        .sub-nav::-webkit-scrollbar-thumb {
-            background-color: #ffffff; /* 滚动条颜色 */
-            border-radius: 10px; /* 滚动条圆角 */
-            border: 1px solid rgba(0, 0, 0, 0.2); /* 滚动条边框 */
-        }
-        
-        .sub-nav::-webkit-scrollbar-thumb:hover {
-            background-color: #cccccc; /* 滚动条悬停颜色 */
-        }
-        
-        .sub-nav::-webkit-scrollbar-button {
-            display: none; /* 隐藏滚动条的小箭头 */
-        }
+
         
 
 
@@ -243,41 +259,49 @@
 
             <!-- Main Navigation: Demand -->
             <button class="nav-button has-subnav" id="demandNav">Demand</button>
-            <div class="sub-nav" id="sub-nav-1">
-                <button class="nav-button" data-viz="1">Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US</button>
-                <button class="nav-button" data-viz="2">Older Adults in the US and Characteristics, by Zip Code</button>
-                <button class="nav-button" data-viz="3">Older Adults in the US and Their Characteristics, by County</button>
-                <button class="nav-button" data-viz="4">Pattern of Care for High-Needs Patients (HNP)</button>
+            <div class="sub-nav-wrapper">
+                <div class="sub-nav" id="sub-nav-1">
+                    <button class="nav-button" data-viz="1">Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US</button>
+                    <button class="nav-button" data-viz="2">Older Adults in the US and Characteristics, by Zip Code</button>
+                    <button class="nav-button" data-viz="3">Older Adults in the US and Their Characteristics, by County</button>
+                    <button class="nav-button" data-viz="4">Pattern of Care for High-Needs Patients (HNP)</button>
+                </div>
             </div>
 
             <!-- Main Navigation: Supply and Performance -->
             <button class="nav-button has-subnav" id="supplyNav">Supply and Performance</button>
-            <div class="sub-nav" id="sub-nav-2">
-                <button class="nav-button" data-viz="5">Clinician Affiliations with HBMC Programs Medicare FFS</button>
-                <button class="nav-button" data-viz="6">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
-                <button class="nav-button" data-viz="7">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
-                <button class="nav-button" data-viz="8">Scorecard of HBMC Clinicians, Medicare FFS</button>
-                <button class="nav-button" data-viz="9">Scorecard of HBMC Practices or Programs, Medicare FFS</button>
-                <button class="nav-button" data-viz="10">Trend Analysis of High-Volume HBMC Programs</button>
-                <button class="nav-button" data-viz="11">Market Share Trend Analysis for HBMC Programs</button>
+            <div class="sub-nav-wrapper">
+                <div class="sub-nav" id="sub-nav-2">
+                    <button class="nav-button" data-viz="5">Clinician Affiliations with HBMC Programs Medicare FFS</button>
+                    <button class="nav-button" data-viz="6">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
+                    <button class="nav-button" data-viz="7">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
+                    <button class="nav-button" data-viz="8">Scorecard of HBMC Clinicians, Medicare FFS</button>
+                    <button class="nav-button" data-viz="9">Scorecard of HBMC Practices or Programs, Medicare FFS</button>
+                    <button class="nav-button" data-viz="10">Trend Analysis of High-Volume HBMC Programs</button>
+                    <button class="nav-button" data-viz="11">Market Share Trend Analysis for HBMC Programs</button>
+                </div>
             </div>
 
             <!-- Main Navigation: Partners, Referrals, and Billing -->
             <button class="nav-button has-subnav" id="partnersNav">Partners, Referrals, and Billing</button>
-            <div class="sub-nav" id="sub-nav-3">
-                <button class="nav-button" data-viz="12">Assisted Living Facilities in the US</button>
-                <button class="nav-button" data-viz="13">Billing Codes used in HBMC in the US, FFS Medicare</button>
-                <button class="nav-button" data-viz="14">HBMC Referrals and HBMC Patient Leakage Sources and Destinations by State, FFS Medicare</button>
+            <div class="sub-nav-wrapper">
+                <div class="sub-nav" id="sub-nav-3">
+                    <button class="nav-button" data-viz="12">Assisted Living Facilities in the US</button>
+                    <button class="nav-button" data-viz="13">Billing Codes used in HBMC in the US, FFS Medicare</button>
+                    <button class="nav-button" data-viz="14">HBMC Referrals and HBMC Patient Leakage Sources and Destinations by State, FFS Medicare</button>
+                </div>
             </div>
 
             <!-- Main Navigation: Medicare Advantage -->
             <button class="nav-button has-subnav" id="medicareNav">Medicare Advantage</button>
-            <div class="sub-nav" id="sub-nav-4">
-                <button class="nav-button" data-viz="15">Patient Profiles of HBMC Practices/Programs, Medicare Advantage</button>
-                <button class="nav-button" data-viz="16">Patient Profiles of HBMC Providers, Medicare Advantage</button>
-                <button class="nav-button" data-viz="17">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
-                <button class="nav-button" data-viz="18">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
-                <button class="nav-button" data-viz="19">Medicare Advantage Penetration by County and Market Share for Companies</button>
+            <div class="sub-nav-wrapper">
+                <div class="sub-nav" id="sub-nav-4">
+                    <button class="nav-button" data-viz="15">Patient Profiles of HBMC Practices/Programs, Medicare Advantage</button>
+                    <button class="nav-button" data-viz="16">Patient Profiles of HBMC Providers, Medicare Advantage</button>
+                    <button class="nav-button" data-viz="17">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
+                    <button class="nav-button" data-viz="18">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
+                    <button class="nav-button" data-viz="19">Medicare Advantage Penetration by County and Market Share for Companies</button>
+                </div>
             </div>
         </div>
 
