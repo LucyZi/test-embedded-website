@@ -85,62 +85,36 @@
 
 
 
-        /* 隐藏原生滚动条 */
         .sub-nav {
-            max-height: 300px;
-            overflow-y: auto; /* 自动滚动 */
-            scrollbar-width: none; /* Firefox 隐藏滚动条 */
-            -ms-overflow-style: none; /* IE/Edge 隐藏滚动条 */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
         }
-
-        /* 显示自定义滚动条时的样式 */
-        .sub-nav.show {
-            max-height: 300px; /* 限制高度以触发滚动 */
-            overflow-y: auto; /* 自动滚动 */
-            padding-right: 10px; /* 为自定义滚动条留出空间 */
-            box-sizing: content-box; /* 确保 padding 不影响内容宽度 */
-        }
-
-        /* 隐藏原生滚动条 */
-        .sub-nav::-webkit-scrollbar {
-            width: 0; /* Chrome/Edge 隐藏滚动条 */
-            height: 0;
-        }
-
-        /* 子导航容器样式 */
-        .sub-nav-wrapper {
-            position: relative;
-            max-height: 300px; /* 限制子导航高度 */
-            overflow: hidden; /* 防止内容溢出 */
-        }
-
-        /* 自定义滚动条 */
-        .sub-nav-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 6px; /* 滚动条宽度 */
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3); /* 滚动条背景色 */
-            border-radius: 3px;
-            pointer-events: none; /* 防止滚动条干扰点击事件 */
-        }
-
-        /* 子导航的内部样式 */
-        .sub-nav-wrapper .sub-nav {
-            position: relative;
-            padding-right: 10px; /* 为伪造的滚动条留出空间 */
-            box-sizing: content-box;
-        }
-
-        /* 确保隐藏原生滚动条的滚动条样式 */
-        .sub-nav-wrapper .sub-nav::-webkit-scrollbar-thumb {
-            background-color: transparent; /* 确保隐藏原生滚动条 */
-        }
-
-
         
+        .sub-nav.show {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        
+
+
+        .sub-nav::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sub-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sub-nav::-webkit-scrollbar-thumb {
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .sub-nav::-webkit-scrollbar-thumb:hover {
+            background-color: #ccc;
+        }
 
 
         .sub-nav > .nav-button {
@@ -263,49 +237,41 @@
 
             <!-- Main Navigation: Demand -->
             <button class="nav-button has-subnav" id="demandNav">Demand</button>
-            <div class="sub-nav-wrapper">
-                <div class="sub-nav" id="sub-nav-1">
-                    <button class="nav-button" data-viz="1">Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US</button>
-                    <button class="nav-button" data-viz="2">Older Adults in the US and Characteristics, by Zip Code</button>
-                    <button class="nav-button" data-viz="3">Older Adults in the US and Their Characteristics, by County</button>
-                    <button class="nav-button" data-viz="4">Pattern of Care for High-Needs Patients (HNP)</button>
-                </div>
+            <div class="sub-nav" id="sub-nav-1">
+                <button class="nav-button" data-viz="1">Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US</button>
+                <button class="nav-button" data-viz="2">Older Adults in the US and Characteristics, by Zip Code</button>
+                <button class="nav-button" data-viz="3">Older Adults in the US and Their Characteristics, by County</button>
+                <button class="nav-button" data-viz="4">Pattern of Care for High-Needs Patients (HNP)</button>
             </div>
 
             <!-- Main Navigation: Supply and Performance -->
             <button class="nav-button has-subnav" id="supplyNav">Supply and Performance</button>
-            <div class="sub-nav-wrapper">
-                <div class="sub-nav" id="sub-nav-2">
-                    <button class="nav-button" data-viz="5">Clinician Affiliations with HBMC Programs Medicare FFS</button>
-                    <button class="nav-button" data-viz="6">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
-                    <button class="nav-button" data-viz="7">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
-                    <button class="nav-button" data-viz="8">Scorecard of HBMC Clinicians, Medicare FFS</button>
-                    <button class="nav-button" data-viz="9">Scorecard of HBMC Practices or Programs, Medicare FFS</button>
-                    <button class="nav-button" data-viz="10">Trend Analysis of High-Volume HBMC Programs</button>
-                    <button class="nav-button" data-viz="11">Market Share Trend Analysis for HBMC Programs</button>
-                </div>
+            <div class="sub-nav" id="sub-nav-2">
+                <button class="nav-button" data-viz="5">Clinician Affiliations with HBMC Programs Medicare FFS</button>
+                <button class="nav-button" data-viz="6">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
+                <button class="nav-button" data-viz="7">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
+                <button class="nav-button" data-viz="8">Scorecard of HBMC Clinicians, Medicare FFS</button>
+                <button class="nav-button" data-viz="9">Scorecard of HBMC Practices or Programs, Medicare FFS</button>
+                <button class="nav-button" data-viz="10">Trend Analysis of High-Volume HBMC Programs</button>
+                <button class="nav-button" data-viz="11">Market Share Trend Analysis for HBMC Programs</button>
             </div>
 
             <!-- Main Navigation: Partners, Referrals, and Billing -->
             <button class="nav-button has-subnav" id="partnersNav">Partners, Referrals, and Billing</button>
-            <div class="sub-nav-wrapper">
-                <div class="sub-nav" id="sub-nav-3">
-                    <button class="nav-button" data-viz="12">Assisted Living Facilities in the US</button>
-                    <button class="nav-button" data-viz="13">Billing Codes used in HBMC in the US, FFS Medicare</button>
-                    <button class="nav-button" data-viz="14">HBMC Referrals and HBMC Patient Leakage Sources and Destinations by State, FFS Medicare</button>
-                </div>
+            <div class="sub-nav" id="sub-nav-3">
+                <button class="nav-button" data-viz="12">Assisted Living Facilities in the US</button>
+                <button class="nav-button" data-viz="13">Billing Codes used in HBMC in the US, FFS Medicare</button>
+                <button class="nav-button" data-viz="14">HBMC Referrals and HBMC Patient Leakage Sources and Destinations by State, FFS Medicare</button>
             </div>
 
             <!-- Main Navigation: Medicare Advantage -->
             <button class="nav-button has-subnav" id="medicareNav">Medicare Advantage</button>
-            <div class="sub-nav-wrapper">
-                <div class="sub-nav" id="sub-nav-4">
-                    <button class="nav-button" data-viz="15">Patient Profiles of HBMC Practices/Programs, Medicare Advantage</button>
-                    <button class="nav-button" data-viz="16">Patient Profiles of HBMC Providers, Medicare Advantage</button>
-                    <button class="nav-button" data-viz="17">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
-                    <button class="nav-button" data-viz="18">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
-                    <button class="nav-button" data-viz="19">Medicare Advantage Penetration by County and Market Share for Companies</button>
-                </div>
+            <div class="sub-nav" id="sub-nav-4">
+                <button class="nav-button" data-viz="15">Patient Profiles of HBMC Practices/Programs, Medicare Advantage</button>
+                <button class="nav-button" data-viz="16">Patient Profiles of HBMC Providers, Medicare Advantage</button>
+                <button class="nav-button" data-viz="17">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
+                <button class="nav-button" data-viz="18">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
+                <button class="nav-button" data-viz="19">Medicare Advantage Penetration by County and Market Share for Companies</button>
             </div>
         </div>
 
@@ -399,7 +365,7 @@
             document.querySelectorAll('.loading').forEach(function(loading) {
                 loading.style.display = 'none';
             });
-
+    
             // Show the selected visualization and its loading indicator
             const vizToShow = document.getElementById('viz' + vizId);
             const loading = document.getElementById('loading' + vizId);
@@ -407,19 +373,19 @@
                 vizToShow.classList.add('active');
                 loading.style.display = 'block'; // Show loading message
             }
-
+    
             // If the viz is not yet loaded, load it
             const tableauViz = vizToShow.querySelector('tableau-viz');
             if (tableauViz && !tableauViz.src) {
                 tableauViz.src = tableauViz.getAttribute('data-src'); // Lazy load
             }
-
+    
             // Listen for load event to hide the loading message
             tableauViz.addEventListener('load', function() {
                 loading.style.display = 'none'; // Hide loading message after load
             });
         }
-
+    
         // Preload other viz when the page loads
         function preloadViz(vizId) {
             const vizContainer = document.getElementById('viz' + vizId);
@@ -428,7 +394,7 @@
                 tableauViz.src = tableauViz.getAttribute('data-src'); // Preload the viz
             }
         }
-
+    
         // Set up IntersectionObserver for lazy loading
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -442,34 +408,26 @@
                 }
             });
         }, { threshold: 0.5 }); // Trigger when 50% of the element is visible
-
+    
         // Observe all viz containers to lazy load them
         document.querySelectorAll('.tableau-viz-container').forEach(viz => {
             observer.observe(viz); // Start observing each viz container
         });
-
-        // Combine all initialization logic into a single window.onload function
+    
+        // Initialize the first viz and load others in the background
         window.onload = function() {
-            // Collapse all sub-navigation menus by default
-            document.querySelectorAll('.sub-nav').forEach(nav => {
-                nav.classList.remove('show'); // Ensure all sub-navigation menus are collapsed
-            });
-
-            // Load the first visualization by default
-            loadViz(1);
-
-            // Preload other visualizations
+            loadViz(1); // Load the first viz immediately
             for (let i = 2; i <= 5; i++) {
-                preloadViz(i);
+                preloadViz(i); // Preload the other viz
             }
         };
-
+    
         // Handle navigation button click event
         document.querySelectorAll('.nav-button').forEach(function(button) {
             button.addEventListener('click', function() {
                 const vizId = button.getAttribute('data-viz');
                 loadViz(vizId);
-
+    
                 // Mark the clicked button as active
                 document.querySelectorAll('.nav-button').forEach(function(btn) {
                     btn.classList.remove('active');
@@ -477,18 +435,22 @@
                 button.classList.add('active');
             });
         });
-
-        // Function to handle sub-navigation toggle (expand/collapse)
+    
+        // Handle sub-navigation toggle (expand/collapse)
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
-            button.addEventListener('click', function () {
-                const subNav = button.nextElementSibling.querySelector('.sub-nav');
+            button.addEventListener('click', function() {
+                const subNav = button.nextElementSibling;
 
-                // Toggle the "show" class to expand/collapse the sub-navigation
-                if (subNav) {
-                    subNav.classList.toggle('show');
-                }
+                subNav.classList.toggle('show');
             });
         });
+
+
+        window.onload = function() {
+            document.querySelectorAll('.sub-nav').forEach(nav => {
+                nav.classList.remove('show');
+            });
+        };
 
 
     </script>
