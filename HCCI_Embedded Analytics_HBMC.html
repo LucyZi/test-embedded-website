@@ -399,7 +399,7 @@
             document.querySelectorAll('.loading').forEach(function(loading) {
                 loading.style.display = 'none';
             });
-    
+
             // Show the selected visualization and its loading indicator
             const vizToShow = document.getElementById('viz' + vizId);
             const loading = document.getElementById('loading' + vizId);
@@ -407,19 +407,19 @@
                 vizToShow.classList.add('active');
                 loading.style.display = 'block'; // Show loading message
             }
-    
+
             // If the viz is not yet loaded, load it
             const tableauViz = vizToShow.querySelector('tableau-viz');
             if (tableauViz && !tableauViz.src) {
                 tableauViz.src = tableauViz.getAttribute('data-src'); // Lazy load
             }
-    
+
             // Listen for load event to hide the loading message
             tableauViz.addEventListener('load', function() {
                 loading.style.display = 'none'; // Hide loading message after load
             });
         }
-    
+
         // Preload other viz when the page loads
         function preloadViz(vizId) {
             const vizContainer = document.getElementById('viz' + vizId);
@@ -428,7 +428,7 @@
                 tableauViz.src = tableauViz.getAttribute('data-src'); // Preload the viz
             }
         }
-    
+
         // Set up IntersectionObserver for lazy loading
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -442,26 +442,34 @@
                 }
             });
         }, { threshold: 0.5 }); // Trigger when 50% of the element is visible
-    
+
         // Observe all viz containers to lazy load them
         document.querySelectorAll('.tableau-viz-container').forEach(viz => {
             observer.observe(viz); // Start observing each viz container
         });
-    
-        // Initialize the first viz and load others in the background
+
+        // Combine all initialization logic into a single window.onload function
         window.onload = function() {
-            loadViz(1); // Load the first viz immediately
+            // Collapse all sub-navigation menus by default
+            document.querySelectorAll('.sub-nav').forEach(nav => {
+                nav.classList.remove('show'); // Ensure all sub-navigation menus are collapsed
+            });
+
+            // Load the first visualization by default
+            loadViz(1);
+
+            // Preload other visualizations
             for (let i = 2; i <= 5; i++) {
-                preloadViz(i); // Preload the other viz
+                preloadViz(i);
             }
         };
-    
+
         // Handle navigation button click event
         document.querySelectorAll('.nav-button').forEach(function(button) {
             button.addEventListener('click', function() {
                 const vizId = button.getAttribute('data-viz');
                 loadViz(vizId);
-    
+
                 // Mark the clicked button as active
                 document.querySelectorAll('.nav-button').forEach(function(btn) {
                     btn.classList.remove('active');
@@ -469,7 +477,6 @@
                 button.classList.add('active');
             });
         });
-    
 
         // Function to handle sub-navigation toggle (expand/collapse)
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
@@ -482,16 +489,6 @@
                 }
             });
         });
-
-        // Ensure all sub-navigation menus are collapsed by default on page load
-        window.onload = function () {
-            document.querySelectorAll('.sub-nav').forEach(nav => {
-                nav.classList.remove('show'); // Collapse all sub-navigation menus
-            });
-
-            // Load the first visualization by default
-            loadViz(1);
-        };
 
 
     </script>
