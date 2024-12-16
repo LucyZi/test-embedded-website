@@ -84,18 +84,18 @@
         }
 
 
+
         .sub-nav {
-            max-height: 300px;
-            overflow-y: auto;
+            max-height: 0;
+            overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
         
-        
         .sub-nav.show {
-            max-height: 600px;
-            overflow-y: hidden;
+            max-height: 300px;
+            overflow-y: auto;
         }
-
+        
         
 
 
@@ -437,21 +437,22 @@
         });
     
         // Handle sub-navigation toggle (expand/collapse)
-        let openMenusCount = 0;
-
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
             button.addEventListener('click', function() {
                 const subNav = button.nextElementSibling;
+
                 subNav.classList.toggle('show');
-        
-                if (subNav.classList.contains('show')) {
-                    openMenusCount++;
-                } else {
-                    openMenusCount--;
-                }
-        
             });
         });
+
+
+        window.onload = function() {
+            document.querySelectorAll('.sub-nav').forEach(nav => {
+                nav.classList.remove('show');
+            });
+        };
+
+
     </script>
     
 
