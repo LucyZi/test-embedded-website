@@ -84,11 +84,12 @@
         }
 
 
+
         .sub-nav {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
-            scrollbar-width: thin; /* Firefox 滚动条 */
+            scrollbar-width: thin; /* Firefox 滚动条宽度 */
             scrollbar-color: white transparent; /* Firefox 滚动条颜色 */
         }
         
@@ -99,15 +100,16 @@
         
         .sub-nav::-webkit-scrollbar {
             width: 6px; /* 滚动条宽度 */
+            height: 6px; /* 横向滚动条高度（如果有） */
         }
         
         .sub-nav::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1); /* 滑轨背景 */
+            background: rgba(255, 255, 255, 0.1); /* 滚动条轨道背景 */
         }
         
         .sub-nav::-webkit-scrollbar-thumb {
             background-color: #ffffff; /* 滚动条颜色 */
-            border-radius: 10px; /* 圆角 */
+            border-radius: 10px; /* 滚动条圆角 */
             border: 1px solid rgba(0, 0, 0, 0.2); /* 滚动条边框 */
         }
         
@@ -115,23 +117,10 @@
             background-color: #cccccc; /* 滚动条悬停颜色 */
         }
         
-
-
-
-        .sub-nav {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
+        .sub-nav::-webkit-scrollbar-button {
+            display: none; /* 隐藏滚动条的小箭头 */
         }
         
-        .sub-nav.show {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        
-
-
 
 
         .sub-nav > .nav-button {
