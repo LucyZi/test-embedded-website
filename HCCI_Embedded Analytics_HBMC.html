@@ -88,38 +88,33 @@
         /* 隐藏原生滚动条 */
         .sub-nav {
             max-height: 300px;
-            overflow-y: scroll;
+            overflow-y: auto; /* 自动滚动 */
             scrollbar-width: none; /* Firefox 隐藏滚动条 */
             -ms-overflow-style: none; /* IE/Edge 隐藏滚动条 */
         }
 
-
         /* 显示自定义滚动条时的样式 */
         .sub-nav.show {
-            max-height: 300px;
+            max-height: 300px; /* 限制高度以触发滚动 */
             overflow-y: auto; /* 自动滚动 */
-            padding-right: 15px; /* 为自定义滚动条留出空间 */
+            padding-right: 10px; /* 为自定义滚动条留出空间 */
             box-sizing: content-box; /* 确保 padding 不影响内容宽度 */
         }
 
-
+        /* 隐藏原生滚动条 */
         .sub-nav::-webkit-scrollbar {
-            display: none; /* Chrome/Edge 隐藏滚动条 */
+            width: 0; /* Chrome/Edge 隐藏滚动条 */
+            height: 0;
         }
 
-        /* 自定义滚动条 */
+        /* 子导航容器样式 */
         .sub-nav-wrapper {
             position: relative;
-            height: 100%;
+            max-height: 300px; /* 限制子导航高度 */
             overflow: hidden; /* 防止内容溢出 */
         }
 
-        .sub-nav-wrapper .sub-nav {
-            position: relative;
-            padding-right: 15px; /* 为伪造的滚动条留出空间 */
-            box-sizing: content-box;
-        }
-
+        /* 自定义滚动条 */
         .sub-nav-wrapper::after {
             content: '';
             position: absolute;
@@ -132,9 +127,18 @@
             pointer-events: none; /* 防止滚动条干扰点击事件 */
         }
 
+        /* 子导航的内部样式 */
+        .sub-nav-wrapper .sub-nav {
+            position: relative;
+            padding-right: 10px; /* 为伪造的滚动条留出空间 */
+            box-sizing: content-box;
+        }
+
+        /* 确保隐藏原生滚动条的滚动条样式 */
         .sub-nav-wrapper .sub-nav::-webkit-scrollbar-thumb {
             background-color: transparent; /* 确保隐藏原生滚动条 */
         }
+
 
         
 
@@ -466,20 +470,27 @@
             });
         });
     
-        // Handle sub-navigation toggle (expand/collapse)
-        document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
-            button.addEventListener('click', function() {
-                const subNav = button.nextElementSibling;
 
-                subNav.classList.toggle('show');
+        // Function to handle sub-navigation toggle (expand/collapse)
+        document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
+            button.addEventListener('click', function () {
+                const subNav = button.nextElementSibling.querySelector('.sub-nav');
+
+                // Toggle the "show" class to expand/collapse the sub-navigation
+                if (subNav) {
+                    subNav.classList.toggle('show');
+                }
             });
         });
 
-
-        window.onload = function() {
+        // Ensure all sub-navigation menus are collapsed by default on page load
+        window.onload = function () {
             document.querySelectorAll('.sub-nav').forEach(nav => {
-                nav.classList.remove('show');
+                nav.classList.remove('show'); // Collapse all sub-navigation menus
             });
+
+            // Load the first visualization by default
+            loadViz(1);
         };
 
 
