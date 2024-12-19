@@ -262,14 +262,27 @@
             <div class="sub-nav" id="sub-nav-1">
                 <button class="nav-button" data-viz="1">Market Analysis by Practice</button>
                 <button class="nav-button" data-viz="2">Market Analysis by Clinician</button>
+                <button class="nav-button" data-viz="3">Clinician Affiliations</button>
+                <button class="nav-button" data-viz="4">Billing Patterns</button>
+                <button class="nav-button" data-viz="5">Supply Analysis, by Practice</button>
+                <button class="nav-button" data-viz="6">Supply Analysis, by Clinician</button>
             </div>
 
             <!-- Main Navigation: Supply and Performance -->
             <button class="nav-button has-subnav" id="ildemandNav">IL Demand</button>
             <div class="sub-nav" id="sub-nav-2">
                 <button class="nav-button" data-viz="7">Penetration Analysis</button>
+                <button class="nav-button" data-viz="8">Medicare Advantage Payer Mix and Market Share</button>
+                <button class="nav-button" data-viz="9">Characteristics of Older Adults, by Zip Code</button>
             </div>
 
+            <!-- Main Navigation: Partners, Referrals, and Billing -->
+            <button class="nav-button has-subnav" id="ilpartnersNav">IL Partnership Opportunities</button>
+            <div class="sub-nav" id="sub-nav-3">
+                <button class="nav-button" data-viz="10">Home Health Agencies</button>
+                <button class="nav-button" data-viz="11">Hospice Programs</button>
+                <button class="nav-button" data-viz="12">Assisted Living Facilities</button>
+            </div>
 
             <!-- Main Navigation: Medicare Advantage -->
             <button class="nav-button has-subnav" id="independNav">Independence at Home</button>
@@ -285,23 +298,55 @@
         <div id="content">
             <!-- Embedding Tableau Visualizations -->
             <div class="tableau-viz-container" id="viz1">
-                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganizationIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
-                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+                <tableau-viz data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganizationIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz2">
-                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
-                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+                <tableau-viz data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz3">
+                <tableau-viz data-src="https://public.tableau.com/views/ClinicianAffiliationswithHBPCProgramsFFSIllinoisOnly/AffiliationsDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz4">
+                <tableau-viz data-src="https://public.tableau.com/views/BillingCodesusedinHBPCIllinoisOnly/BillingpatternbyPracticeVolume?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz5">
+                <tableau-viz data-src="https://public.tableau.com/views/ScorecardofHBPCPracticesorPrograms2022MedicareFFSIllinoisOnly/Mid-andHigh-VolumePrograms?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz6">
+                <tableau-viz data-src="https://public.tableau.com/views/ScorecardofHBPCcliniciansMedicareFFS2022IllinoisOnly/Mid-andHigh-VolumeHBPCProviders?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz7">
-                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
-                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+                <tableau-viz data-src="https://public.tableau.com/views/Home-BasedMedicalCarePenetrationRatesintheUSIllinoisOnly/PenetrationDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz8">
+                <tableau-viz data-src="https://public.tableau.com/views/MedicareAdvantagePenetrationbyCountyandMarketShareforCompaniesIllinoisOnly/MAPenetrationDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz9">
+                <tableau-viz data-src="https://public.tableau.com/views/OlderAdultsintheUSandTheirCharacteristicsbyZipCodeIllinoisOnly/OlderAdultsZipDashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz10">
+                <tableau-viz data-src="https://public.tableau.com/views/HomeHealthProgramsbyPatientCountyandtheirPerformanceIllinoisOnly/HomeHealthProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_lin&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz11">
+                <tableau-viz data-src="https://public.tableau.com/views/HospiceProgramsbyPatientCountyandTheirPerformanceIllinoisOnly/HospiceProgramsbyPatientCountyandTheirPerformance?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
+            </div>
+
+            <div class="tableau-viz-container" id="viz12">
+                <tableau-viz data-src="https://public.tableau.com/views/AssistedLivingFacilitiesIllinoisOnly/ALF?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
             </div>
 
             <div class="tableau-viz-container" id="viz13">
-                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
-                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+                <tableau-viz data-src="https://public.tableau.com/views/IndependenceatHomeDemonstrationFinancialResultsbyPractices/IndependenceatHomeDemonstration?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false" toolbar="bottom" ></tableau-viz>
             </div>
 
     </div>
@@ -326,13 +371,13 @@
             }
     
             // If the viz is not yet loaded, load it
-            const iframe = vizToShow.querySelector('iframe');
-            if (iframe && !iframe.src) {
-                iframe.src = iframe.getAttribute('data-src'); // Lazy load
+            const tableauViz = vizToShow.querySelector('tableau-viz');
+            if (tableauViz && !tableauViz.src) {
+                tableauViz.src = tableauViz.getAttribute('data-src'); // Lazy load
             }
     
             // Listen for load event to hide the loading message
-            iframe.addEventListener('load', function() {
+            tableauViz.addEventListener('load', function() {
                 loading.style.display = 'none'; // Hide loading message after load
             });
         }
@@ -340,9 +385,9 @@
         // Preload other viz when the page loads
         function preloadViz(vizId) {
             const vizContainer = document.getElementById('viz' + vizId);
-            const iframe = vizContainer.querySelector('iframe');
-            if (iframe && !iframe.src) {
-                iframe.src = iframe.getAttribute('data-src'); // Preload the viz
+            const tableauViz = vizContainer.querySelector('tableau-viz');
+            if (tableauViz && !tableauViz.src) {
+                tableauViz.src = tableauViz.getAttribute('data-src'); // Preload the viz
             }
         }
     
@@ -351,9 +396,9 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const vizElement = entry.target;
-                    const iframe = vizElement.querySelector('iframe');
-                    if (iframe && !iframe.src) {
-                        iframe.src = iframe.getAttribute('data-src'); // Lazy load on visibility
+                    const tableauViz = vizElement.querySelector('tableau-viz');
+                    if (tableauViz && !tableauViz.src) {
+                        tableauViz.src = tableauViz.getAttribute('data-src'); // Lazy load on visibility
                     }
                     observer.unobserve(vizElement); // Unobserve after loading
                 }
