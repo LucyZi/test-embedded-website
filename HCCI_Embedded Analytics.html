@@ -3,10 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Basic Embedding via Web Component</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Free Dashboards</title>
 
     <!-- Importing the Embedding API Library -->
-    <script type="module" src="https://us-east-1.online.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
     <style>
         html, body {
             height: 100%;
@@ -25,18 +28,31 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 -4px 6px rgba(0,0,0,0.1);
         }
         #sidebar {
-            width: 370px;
+            width: 320px;
+            min-width: 320px;
+            max-width: 320px;
             background-color: #033954;
             color: white;
-            padding: 20px;
+            padding: 20px 20px 110px 20px;
             display: flex;
             flex-direction: column;
+            position: relative;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
+
+
         #logo-container {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin: 0 auto;
         }
+
         #content {
             flex-grow: 1;
             display: flex;
@@ -56,7 +72,7 @@
             width: calc(100% + 40px);
             margin-left: -20px;
             padding-left: 80px; 
-            padding-right: 60px;
+            padding-right: 10px;
             padding-top: 10px;
             padding-bottom: 10px;
             margin-top: 10px;
@@ -67,21 +83,27 @@
             cursor: pointer;
             transition: background-color 0.3s;
             text-align: left;
+            word-wrap: break-word;
+            white-space: normal;
         }
         .nav-button:hover, .nav-button.active {
             background-color: #05B1CC;
         }
         .nav-button.has-subnav {
             position: relative;
+            font-size: 16px;
         }
         .nav-button.has-subnav::before {
             content: '\25BC';
             position: absolute;
-            left: 50px;
+            left: 45px;
             top: 50%;
             transform: translateY(-50%);
             font-size: 0.7em;
         }
+
+
+
         .sub-nav {
             max-height: 0;
             overflow: hidden;
@@ -89,9 +111,11 @@
         }
         
         .sub-nav.show {
-            max-height: 600px;
-            overflow-y: hidden;
+            max-height: 300px;
+            overflow-y: auto;
         }
+        
+        
 
 
         .sub-nav::-webkit-scrollbar {
@@ -114,18 +138,23 @@
 
         .sub-nav > .nav-button {
             background: none;
-            padding-left: 30px; 
-            padding-right: 10px;
+            padding-left: 80px; 
+            padding-right: 20px;
             padding-top: 7px;
             padding-bottom: 7px;
             margin-top: 2px;
             margin-bottom: 2px;
             text-align: left; 
+            font-size: 13.33px;
         }
 
-        .sub-nav .nav-button:hover {
+
+        .sub-nav .nav-button:hover, .sub-nav .nav-button.active, .sub-nav .nav-button:focus {
             text-decoration: underline;
+            text-underline-offset: 3px;
+            font-weight: bold;
         }
+        
 
         #viz-container {
             flex-grow: 1;
@@ -205,7 +234,8 @@
         .brand-title {
             text-align: center;
             font-size: 1.4em;
-            margin-bottom: 16px;
+            margin-top: 13px;
+            margin-bottom: 13px;
         }
 
         .navigation-title {
@@ -224,130 +254,56 @@
 <body>
     <div id="wrapper">
         <div id="sidebar">
-            <div id="logo-container">
-                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
-            </div>
             <div class="brand-title">Confer Analytics®</div>
-            <div class="navigation-title">Home-Based Medical Care</div>
+            <div class="navigation-title">Free Dashboards</div>
 
             <!-- Main Navigation: Demand -->
-            <button class="nav-button has-subnav" id="demandNav">Demand</button>
+            <button class="nav-button has-subnav" id="ilsupplyNav">IL Supply and Performance</button>
             <div class="sub-nav" id="sub-nav-1">
-                <button class="nav-button" data-viz="1">Home-Based Medical Care Penetration Rates by Patients' Characteristics in the US</button>
-                <button class="nav-button" data-viz="2">Older Adults in the US and Characteristics, by Zip Code</button>
-                <button class="nav-button" data-viz="3">Older Adults in the US and Their Characteristics, by County</button>
-                <button class="nav-button" data-viz="4">Pattern of Care for High-Needs Patients (HNP)</button>
+                <button class="nav-button" data-viz="1">Market Analysis by Practice</button>
+                <button class="nav-button" data-viz="2">Market Analysis by Clinician</button>
             </div>
 
             <!-- Main Navigation: Supply and Performance -->
-            <button class="nav-button has-subnav" id="supplyNav">Supply and Performance</button>
+            <button class="nav-button has-subnav" id="ildemandNav">IL Demand</button>
             <div class="sub-nav" id="sub-nav-2">
-                <button class="nav-button" data-viz="5">Clinician Affiliations with HBMC Programs Medicare FFS</button>
-                <button class="nav-button" data-viz="6">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
-                <button class="nav-button" data-viz="7">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
-                <button class="nav-button" data-viz="8">Scorecard of HBMC Clinicians, Medicare FFS</button>
-                <button class="nav-button" data-viz="9">Scorecard of HBMC Practices or Programs, Medicare FFS</button>
-                <button class="nav-button" data-viz="10">Trend Analysis of High-Volume HBMC Programs</button>
-                <button class="nav-button" data-viz="11">Market Share Trend Analysis for HBMC Programs</button>
+                <button class="nav-button" data-viz="7">Penetration Analysis</button>
             </div>
 
-            <!-- Main Navigation: Partners, Referrals, and Billing -->
-            <button class="nav-button has-subnav" id="partnersNav">Partners, Referrals, and Billing</button>
-            <div class="sub-nav" id="sub-nav-3">
-                <button class="nav-button" data-viz="12">Assisted Living Facilities in the US</button>
-                <button class="nav-button" data-viz="13">Billing Codes used in HBMC in the US, FFS Medicare</button>
-                <button class="nav-button" data-viz="14">HBMC Referrals and HBMC Patient Leakage Sources and Destinations by State, FFS Medicare</button>
-            </div>
 
             <!-- Main Navigation: Medicare Advantage -->
-            <button class="nav-button has-subnav" id="medicareNav">Medicare Advantage</button>
+            <button class="nav-button has-subnav" id="independNav">Independence at Home</button>
             <div class="sub-nav" id="sub-nav-4">
-                <button class="nav-button" data-viz="15">Patient Profiles of HBMC Practices/Programs, Medicare Advantage</button>
-                <button class="nav-button" data-viz="16">Patient Profiles of HBMC Providers, Medicare Advantage</button>
-                <button class="nav-button" data-viz="17">Market Share of HBMC by Metropolitan Area, County, and Organization</button>
-                <button class="nav-button" data-viz="18">Market Share of HBMC by Metropolitan Area, County, and Provider</button>
-                <button class="nav-button" data-viz="19">Medicare Advantage Penetration by County and Market Share for Companies</button>
+                <button class="nav-button" data-viz="13">Independence at Home</button>
+            </div>
+
+            <div id="logo-container">
+                <img src="https://lucyzi.github.io/hccilogo/hcciLogo_white.png" alt="Logo" style="width: 45%;">
             </div>
         </div>
 
         <div id="content">
             <!-- Embedding Tableau Visualizations -->
             <div class="tableau-viz-container" id="viz1">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/2021_US_FFSHBPCpenetrationinhighneedspatients/HBPCpenetrationratesinhighneedspatients" toolbar="bottom" ></tableau-viz>
+                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganizationIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
+                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
 
             <div class="tableau-viz-container" id="viz2">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz3">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz4">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/OlderAdultsintheUSandTheirCharacteristicsbyCountyLevel2020/ACSbycounty" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz5">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz6">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
+                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
+                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
 
             <div class="tableau-viz-container" id="viz7">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz8">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz9">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz10">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz11">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/ClinicianAffiliationswithHBPCprograms2021FFSMedicare/CliniciansbyHBPCprograms" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz12">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
+                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
+                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
 
             <div class="tableau-viz-container" id="viz13">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
+                <iframe data-src="https://public.tableau.com/views/MarketShareofHBMCbyMetropolitanAreaCountyandProviderIllinoisOnly/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link&:showShareOptions=false"
+                width="100%" height="600" frameborder="0" scrolling="no"></iframe>
             </div>
 
-            <div class="tableau-viz-container" id="viz14">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/BillingCodesUsedinHBPC2021FFSMedicareintheUS/Billingpatternbypracticevolume" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz15">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz16">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz17">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz18">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
-            </div>
-
-            <div class="tableau-viz-container" id="viz19">
-                <tableau-viz data-src="https://us-east-1.online.tableau.com/t/conferanalytics/views/MarketShareofHBMCbyMetropolitanAreaCountyandOrganization2021/HBMCprogramsmarketshare" toolbar="bottom" ></tableau-viz>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -370,13 +326,13 @@
             }
     
             // If the viz is not yet loaded, load it
-            const tableauViz = vizToShow.querySelector('tableau-viz');
-            if (tableauViz && !tableauViz.src) {
-                tableauViz.src = tableauViz.getAttribute('data-src'); // Lazy load
+            const iframe = vizToShow.querySelector('iframe');
+            if (iframe && !iframe.src) {
+                iframe.src = iframe.getAttribute('data-src'); // Lazy load
             }
     
             // Listen for load event to hide the loading message
-            tableauViz.addEventListener('load', function() {
+            iframe.addEventListener('load', function() {
                 loading.style.display = 'none'; // Hide loading message after load
             });
         }
@@ -384,9 +340,9 @@
         // Preload other viz when the page loads
         function preloadViz(vizId) {
             const vizContainer = document.getElementById('viz' + vizId);
-            const tableauViz = vizContainer.querySelector('tableau-viz');
-            if (tableauViz && !tableauViz.src) {
-                tableauViz.src = tableauViz.getAttribute('data-src'); // Preload the viz
+            const iframe = vizContainer.querySelector('iframe');
+            if (iframe && !iframe.src) {
+                iframe.src = iframe.getAttribute('data-src'); // Preload the viz
             }
         }
     
@@ -395,9 +351,9 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const vizElement = entry.target;
-                    const tableauViz = vizElement.querySelector('tableau-viz');
-                    if (tableauViz && !tableauViz.src) {
-                        tableauViz.src = tableauViz.getAttribute('data-src'); // Lazy load on visibility
+                    const iframe = vizElement.querySelector('iframe');
+                    if (iframe && !iframe.src) {
+                        iframe.src = iframe.getAttribute('data-src'); // Lazy load on visibility
                     }
                     observer.unobserve(vizElement); // Unobserve after loading
                 }
@@ -430,32 +386,35 @@
                 button.classList.add('active');
             });
         });
+
+        // Handle navigation button click event for sub-navigation
+        document.querySelectorAll('.sub-nav .nav-button').forEach(function(button) {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.sub-nav .nav-button').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+
+                button.classList.add('active');
+            });
+        });
+
+
     
         // Handle sub-navigation toggle (expand/collapse)
-        let openMenusCount = 0;
-
         document.querySelectorAll('.nav-button.has-subnav').forEach(button => {
             button.addEventListener('click', function() {
                 const subNav = button.nextElementSibling;
+
+                // Toggle the visibility of the sub-navigation
                 subNav.classList.toggle('show');
-        
-                if (subNav.classList.contains('show')) {
-                    openMenusCount++;
-                } else {
-                    openMenusCount--;
-                }
-        
-                if (openMenusCount >= 1) {
-                    document.querySelectorAll('.sub-nav.show').forEach(activeSubNav => {
-                       activeSubNav.style.overflowY = 'auto';
-                    });
-                } else {
-                    document.querySelectorAll('.sub-nav.show').forEach(activeSubNav => {
-                       activeSubNav.style.overflowY = 'hidden';
-                    });
-                }
+
+                // Toggle the active state of the main navigation button
+                button.classList.toggle('active');
             });
         });
+
+
+
     </script>
     
 
@@ -463,5 +422,3 @@
 </body>
 
 </html>
-
-
